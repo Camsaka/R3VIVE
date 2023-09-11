@@ -1,0 +1,16 @@
+{
+   "events": [
+      {
+         "id": 1,
+         "name": "Lancement du projet",
+         "description": "Nous vous convions à un événement pour le lancement de R3VIVE",
+         "background": "https://imgs.search.brave.com/nZR8NbSZ-p0DMuDtiA1rP7dTxK_d3_gkFaMaGZMjWXA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2l4c3RhdGlj/LmNvbS9tZWRpYS8z/ODhiN2FfN2Y1YTk4/YjcxYzg2NDBlYjk2/NTMyMjAxNTlhMjIz/MjkuanBnL3YxL2Zp/bGwvd18yMzIsaF8x/MzIsYWxfYyxxXzgw/LHVzbV8wLjY2XzEu/MDBfMC4wMSxlbmNf/YXV0by8zODhiN2Ff/N2Y1YTk4YjcxYzg2/NDBlYjk2NTMyMjAx/NTlhMjIzMjkuanBn"
+      },
+      {
+         "id":2,
+         "name": "Premiere vente",
+         "description": "Profitez d'avantages exceptionnnels en participant à la première vente",
+         "background": "https://imgs.search.brave.com/tjRPz2xhixOnjU-PGYQ30cD5o1wuWLcTGdzEjBXG_Bo/rs:fit:500:0:0/g:ce/aHR0cHM6Ly92ZXJ5/Z29vZGxvcmQuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIw/LzA4L2Nob2lzaXIt/bW9udHJlLXBldGl0/LXBvaWduZXQtaG9t/bWUtNzQweDcxMC5q/cGc"
+      }
+   ]
+}
