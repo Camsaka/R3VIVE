@@ -1,16 +1,15 @@
+"use client"
 import Carousel from "@/components/HomeComponents/Carousel";
 import Description from "@/components/HomeComponents/Description";
-import HeadBarDisconnected from "@/components/HeadBar/HeadBarDisconnected";
-import AccountInfos from "@/components/Web3/AccountInfos";
+import HeadBar from "@/components/HeadBar/HeadBar";
 import { useEffect, useState } from "react";
 
 export default function Home() {
    return (
       <div>
-         <HeadBarDisconnected></HeadBarDisconnected>
+         <HeadBar></HeadBar>
          <Description></Description>
          <Carousel></Carousel>
-         <AccountInfos></AccountInfos>
       </div>
    );
 }

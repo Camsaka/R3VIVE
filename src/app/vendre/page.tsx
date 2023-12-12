@@ -1,4 +1,4 @@
-import HeaderBar from "@/components/HeadBar/HeadBarDisconnected";
+import HeaderBar from "@/components/HeadBar/HeadBar";
 
 export default function Vendre() {
    return (

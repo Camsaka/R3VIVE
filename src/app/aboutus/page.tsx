@@ -1,9 +1,9 @@
-import HeaderBarDisconnected from "@/components/HeadBar/HeadBarDisconnected";
+import HeaderBar from "@/components/HeadBar/HeadBar";
 
 export default function AboutUs() {
    return (
       <div>
-         <HeaderBarDisconnected />
+         <HeaderBar />
          <p>About us</p>
       </div>
    );

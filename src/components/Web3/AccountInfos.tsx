@@ -9,20 +9,22 @@ function AccountInfos() {
    const { data } = useBalance({ address: address});
    const [isClient, setIsClient] = useState(false);
 
+
+
    useEffect(() => {
       setIsClient(true);
    }, []);
 
+
    return (
-      <>
+      <div className="w-1/3 ml-10 mb-10 mt-10 p-2">
          {isClient && (
-            <div className="flex flex-col place-items-center w-1/3 border-solid border-4 border-black rounded-lg mx-auto mb-10">
-               <p>address : {address}</p>
-               <p>{status}</p>
-               <p>{data?.formatted} {data?.symbol}</p>
+            <div >
+               <p>Address : {address}</p>
+               <p>Montant diponible : {data?.formatted} {data?.symbol}</p>
             </div>
          )}
-      </>
+      </div>
    );
 }
 

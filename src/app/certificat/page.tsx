@@ -1,12 +1,13 @@
-"use client"
 import HeaderBar from "@/components/HeadBar/HeadBar";
 import AccountInfos from "@/components/Web3/AccountInfos";
+import ContractInteractionBox from "@/components/Web3/ContractInteractionBox";
 
-export default function MarketPlace() {
+export default function Certificate() {
    return (
       <div>
          <HeaderBar />
-         <p>Voici la marketplace</p>
+         <AccountInfos/>
+         <ContractInteractionBox />   
       </div>
    );
 }

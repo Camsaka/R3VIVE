@@ -1,3 +1,4 @@
+import React from "react";
 import {
    EthereumClient,
    w3mConnectors,
@@ -5,24 +6,35 @@ import {
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { arbitrum, mainnet, polygon, goerli } from "wagmi/chains";
+import { sepolia, localhost} from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
+import { infuraProvider } from "@wagmi/core/providers/infura";
 
-type WagmiProviderType = {
+type WagmiProviderProps = {
    children: React.ReactNode;
 };
 
-const chains = [arbitrum, mainnet, polygon, goerli];
 const projectId = process.env.NEXT_PUBLIC_W3C_PID;
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
+if (!projectId) {
+   throw new Error("NEXT_PUBLIC_W3C_PID is not defined.");
+}
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+   [localhost],
+   [publicProvider()],
+   // [infuraProvider({ apiKey: "985017d2723145999c1a3775cbd0b059" })]
+);
 const wagmiConfig = createConfig({
    autoConnect: true,
-   connectors: w3mConnectors({ projectId, chains }),
+   connectors: w3mConnectors({chains : [localhost], projectId}),
    publicClient,
+   webSocketPublicClient
 });
 
 const ethereumClient = new EthereumClient(wagmiConfig, chains);
-function WagmiProvider({ children }: WagmiProviderType) {
+
+function WagmiProvider({ children }: WagmiProviderProps) {
    return (
       <>
          <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
