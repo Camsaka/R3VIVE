@@ -1,14 +1,22 @@
-import { writeContract } from "@wagmi/core";
+import { writeContract, readContract } from "@wagmi/core";
 import abi from "@/data/abiCertif.json";
 
 async function addTokenId() {
    const hash = await writeContract({
-      address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+      address: process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA,
       abi: abi,
       functionName: "addTokenInConfirmationList",
    })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+}
+
+async function getOwner() {
+   await readContract({
+      address: process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA,
+      abi: abi,
+      functionName: "owner",
+   });
 }
 
 export default addTokenId;

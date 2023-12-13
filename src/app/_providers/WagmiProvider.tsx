@@ -6,9 +6,13 @@ import {
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { sepolia, localhost} from "wagmi/chains";
+import { sepolia, localhost } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { infuraProvider } from "@wagmi/core/providers/infura";
+import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { createWeb3Modal } from "@web3modal/wagmi/react";
 
 type WagmiProviderProps = {
    children: React.ReactNode;
@@ -21,26 +25,35 @@ if (!projectId) {
 }
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-   [localhost],
-   [publicProvider()],
-   // [infuraProvider({ apiKey: "985017d2723145999c1a3775cbd0b059" })]
+   [sepolia],
+   [
+      // publicProvider(),
+      infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY || "" }),
+   ]
 );
+
+const metadata = {
+   name: "R3VIVE",
+   description: "Projet perso",
+};
+
 const wagmiConfig = createConfig({
    autoConnect: true,
-   connectors: w3mConnectors({chains : [localhost], projectId}),
+   connectors: [
+      new WalletConnectConnector({
+         chains,
+         options: { projectId, showQrModal: false, metadata },
+      }),
+      new InjectedConnector({ chains }),
+   ],
    publicClient,
-   webSocketPublicClient
+   webSocketPublicClient,
 });
 
-const ethereumClient = new EthereumClient(wagmiConfig, chains);
+createWeb3Modal({ wagmiConfig, projectId, chains });
 
 function WagmiProvider({ children }: WagmiProviderProps) {
-   return (
-      <>
-         <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
-         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-      </>
-   );
+   return <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>;
 }
 
 export default WagmiProvider;

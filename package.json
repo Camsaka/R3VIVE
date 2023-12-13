@@ -20,6 +20,7 @@
     "@types/react-dom": "18.2.7",
     "@web3modal/ethereum": "^2.7.1",
     "@web3modal/react": "^2.7.1",
+    "@web3modal/wagmi": "^3.4.0",
     "dotenv": "^16.3.1",
     "encoding": "^0.1.13",
     "eslint": "8.48.0",
@@ -36,8 +37,8 @@
     "react-simply-carousel": "^9.0.4",
     "styled-components": "^5.3.11",
     "typescript": "5.2.2",
-    "viem": "^1.10.8",
-    "wagmi": "^1.4.8"
+    "viem": "^1.19.13",
+    "wagmi": "^1.4.11"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.15",

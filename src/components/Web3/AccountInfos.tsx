@@ -8,9 +8,7 @@ function AccountInfos() {
    const { address, isConnecting, isDisconnected, status } = useAccount();
    const { data } = useBalance({ address: address});
    const [isClient, setIsClient] = useState(false);
-
-
-
+   
    useEffect(() => {
       setIsClient(true);
    }, []);

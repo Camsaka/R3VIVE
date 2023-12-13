@@ -8,18 +8,19 @@ import { useAccount } from "wagmi";
 
 function HeadBar() {
    const { address, isConnecting, isDisconnected, status } = useAccount();
-   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_LOCALHOST;
+   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY_TESTNET;
    const [adminAuth, setAdminAuth] = useState(false);
 
    useEffect(() => {
-      if (address?.toLowerCase() == ownerAddress) {
-         console.log("equal");
+      //tolowerCase for localhost
+      if (address == ownerAddress && address != undefined) {
+         console.log("equal", address, ownerAddress);
          setAdminAuth(true);
       } else {
-         console.log("not equal");
+         console.log("not equal", address, ownerAddress);
          setAdminAuth(false);
       }
-   }, [address, status, ownerAddress]);
+   }, [address]);
 
    if (!adminAuth) {
       return (

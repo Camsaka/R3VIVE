@@ -1,5 +1,4 @@
 "use client";
-import { Web3Button } from "@web3modal/react";
 import { useAccount } from "wagmi";
 import HeadBar from "../HeadBar/HeadBar";
 import { useEffect, useState } from "react";
@@ -7,7 +6,13 @@ import { useRouter } from "next/navigation";
 
 function AdminValidationToken() {
    const { address, isConnecting, isDisconnected, status } = useAccount();
-   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_LOCALHOST;
+
+   // LOCAL
+   // const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_LOCALHOST;
+
+   //SEPOLIA
+   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_TESTNET
+   
    const [adminAuth, setAdminAuth] = useState(false);
 
    useEffect(() => {

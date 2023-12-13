@@ -9,6 +9,7 @@ function ContractInteractionBox() {
    const marques = ["Rolex", "Audemard Piguet", "Cartier", "Breitling"];
    const dates = getDates()!;
    const [requestStatus, setRequestStatus] = useState("");
+   const addressContract = process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA!;
 
    function getDates() {
       const currentYear = new Date().getFullYear();
@@ -25,7 +26,7 @@ function ContractInteractionBox() {
    }
 
    useContractEvent({
-      address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+      address: process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA || "0x",
       abi: abi,
       eventName: "TokenAdd",
       listener(event) {
