@@ -2,7 +2,6 @@
 import Carousel from "@/components/HomeComponents/Carousel";
 import Description from "@/components/HomeComponents/Description";
 import HeadBar from "@/components/HeadBar/HeadBar";
-import { useEffect, useState } from "react";
 
 export default function Home() {
    return (

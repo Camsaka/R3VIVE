@@ -2,14 +2,35 @@
 import { useEffect, useState } from "react";
 import { FileInput, Label, Select, Textarea, TextInput } from "flowbite-react";
 import { useContractEvent, useWebSocketPublicClient } from "wagmi";
-import addTokenId from "@/controller/CertifInterractionMethods"
+import {
+   sendConfirmationMail,
+   addTokenId,
+} from "../../utils/CertifInterractionMethods";
 import abi from "@/data/abiCertif.json";
+
+export type FormDataR3 = {
+   name: string;
+   brand: string;
+   serialN: string;
+   year: string;
+   description: string;
+   historic: string;
+   picture: string;
+};
 
 function ContractInteractionBox() {
    const marques = ["Rolex", "Audemard Piguet", "Cartier", "Breitling"];
    const dates = getDates()!;
    const [requestStatus, setRequestStatus] = useState("");
-   const addressContract = process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA!;
+   const addressContract =
+      process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA;
+
+   const [name, setName] = useState("");
+   const [brand, setBrand] = useState("");
+   const [serialN, setSerialN] = useState("");
+   const [year, setYear] = useState("");
+   const [description, setDescription] = useState("");
+   const [historic, setHistoric] = useState("");
 
    function getDates() {
       const currentYear = new Date().getFullYear();
@@ -20,13 +41,23 @@ function ContractInteractionBox() {
       return dates.reverse();
    }
 
-   function sendRequest() {
-      const res = addTokenId();
-      console.log("response to add token id :", res);
+   async function submitCertificatForm() {
+      // const res = await addTokenId();
+      const data: FormDataR3 = {
+         name: name,
+         brand: brand,
+         serialN: serialN,
+         year: year,
+         description: description,
+         historic: historic,
+         picture: "picture.png",
+      };
+      const resMail = await sendConfirmationMail(data);
+      console.log("response to add token id :", resMail);
    }
 
    useContractEvent({
-      address: process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA || "0x",
+      address: addressContract,
       abi: abi,
       eventName: "TokenAdd",
       listener(event) {
@@ -48,7 +79,13 @@ function ContractInteractionBox() {
             <h1 className="flex mb-5">
                Demander votre certificat dés maintenant
             </h1>
-            <form className="flex w-1/2 flex-col gap-4 items-left">
+            <form
+               className="flex w-1/2 flex-col gap-4 items-left"
+               onSubmit={(e) => {
+                  e.preventDefault();
+                  submitCertificatForm();
+               }}
+            >
                {/* nom / modele */}
                <div>
                   <div className="mb-2 block">
@@ -58,6 +95,8 @@ function ContractInteractionBox() {
                      id="small"
                      type="text"
                      placeholder="Entrer le modèle de votre montre..."
+                     onChange={(e) => setName(e.target.value)}
+                     required
                   />
                </div>
 
@@ -66,7 +105,12 @@ function ContractInteractionBox() {
                   <div className="mb-2 block">
                      <Label htmlFor="marques" value="Selectionner la marque" />
                   </div>
-                  <Select id="marques" defaultValue="none" required>
+                  <Select
+                     id="marques"
+                     defaultValue="none"
+                     required
+                     onChange={(e) => setBrand(e.target.value)}
+                  >
                      <option value="none" disabled hidden>
                         ---
                      </option>
@@ -84,7 +128,12 @@ function ContractInteractionBox() {
                         value="Selectionner l'année"
                      />
                   </div>
-                  <Select id="yearOfFabrication" defaultValue="none" required>
+                  <Select
+                     id="yearOfFabrication"
+                     defaultValue="none"
+                     required
+                     onChange={(e) => setYear(e.target.value)}
+                  >
                      <option value="none" disabled hidden>
                         ---
                      </option>
@@ -104,6 +153,7 @@ function ContractInteractionBox() {
                      placeholder="Numero de série..."
                      required
                      rows={1}
+                     onChange={(e) => setSerialN(e.target.value)}
                   />
                </div>
 
@@ -117,6 +167,7 @@ function ContractInteractionBox() {
                      placeholder="Laissé une breve description de votre bien ..."
                      required
                      rows={3}
+                     onChange={(e) => setDescription(e.target.value)}
                   />
                </div>
 
@@ -130,6 +181,7 @@ function ContractInteractionBox() {
                      placeholder="Entrer le maximum d'information sur l'histoire de votre montre..."
                      required
                      rows={7}
+                     onChange={(e) => setHistoric(e.target.value)}
                   />
                </div>
 
@@ -138,11 +190,10 @@ function ContractInteractionBox() {
                   <div className="mb-2 block">
                      <Label htmlFor="file" value="Upload file" />
                   </div>
-                  <FileInput id="file" />
+                  <FileInput id="file" required />
                </div>
                <button
-                  type="button"
-                  onClick={sendRequest}
+                  type="submit"
                   className="bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                >
                   Envoyer

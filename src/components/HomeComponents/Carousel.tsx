@@ -1,24 +1,16 @@
-"use client";
-import { useState } from "react";
-// import ReactSimplyCarousel from "react-simply-carousel";
-import news from "@/data/news.json";
 import { Carousel } from 'flowbite-react';
-import Image from "next/image";
 
-function Caroussel() {
-   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-
-   return (
-      <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <Carousel>
-          <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-          <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-          <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-          <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-          <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-        </Carousel>
-      </div>
-    );
+function CarouselComp() {
+  return (
+    <div className="mx-auto my-64 text-center h-64 w-2/3">
+      <Carousel>
+        <img src="https://www.agencecaza.ca/assets/Uploads/Pages/nouveautes/evenement-trucs.jpg" alt="event"/>
+        <img src="https://magazineluxe.com/wp-content/uploads/2012/05/PAR_195web.jpg" alt="event" />
+        <img src="https://media.sudouest.fr/8854797/1200x-1/so-57ebcb3466a4bd6726a9153a-ph0.jpg" alt="event" />
+        <img src="https://static1.purepeople.com/articles/5/25/91/65/@/3653077-exclusif-soiree-pour-la-presentation-1200x0-2.jpg" alt="event" />
+      </Carousel>
+    </div>
+  );
 }
 
-export default Caroussel;
+export default CarouselComp;

@@ -11,7 +11,7 @@ function AdminValidationToken() {
    // const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_LOCALHOST;
 
    //SEPOLIA
-   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_TESTNET
+   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_TESTNET;
    
    const [adminAuth, setAdminAuth] = useState(false);
 
