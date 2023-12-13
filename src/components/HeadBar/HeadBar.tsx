@@ -12,7 +12,7 @@ function HeadBar() {
    const [adminAuth, setAdminAuth] = useState(false);
 
    useEffect(() => {
-      //tolowerCase for localhost
+      //tolowerCase
       if (address == ownerAddress && address != undefined) {
          console.log("equal", address, ownerAddress);
          setAdminAuth(true);

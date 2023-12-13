@@ -23,7 +23,7 @@ function LinkList() {
                      Accueil
                   </Link>
                </li>
-               <li>
+               {/* <li>
                   <Link
                      href="/marketplace"
                      className="hover:text-gray-500 underline"
@@ -38,7 +38,7 @@ function LinkList() {
                   >
                      Vendre une montre
                   </Link>
-               </li>
+               </li> */}
                <li>
                   <Link
                      href="/aboutus"
@@ -67,14 +67,14 @@ function LinkList() {
                      Accueil
                   </Link>
                </li>
-               <li>
+               {/* <li>
                   <Link
                      href="/marketplace"
                      className="hover:text-gray-500 underline"
                   >
                      Acheter une montre
                   </Link>
-               </li>
+               </li> */}
                <li>
                   <Link
                      href="/aboutus"
