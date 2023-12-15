@@ -19,14 +19,14 @@ function LinkList() {
          <nav className="flex self-center justify-between">
             <ul className="space-x-28 flex">
                <li>
-                  <Link href="/" className="hover:text-gray-500 underline">
+                  <Link href="/" className="hover:text-gray-500">
                      Accueil
                   </Link>
                </li>
                {/* <li>
                   <Link
                      href="/marketplace"
-                     className="hover:text-gray-500 underline"
+                     className="hover:text-gray-500"
                   >
                      Acheter une montre
                   </Link>
@@ -34,7 +34,7 @@ function LinkList() {
                <li>
                   <Link
                      href="/vendre"
-                     className="hover:text-gray-500 underline"
+                     className="hover:text-gray-500"
                   >
                      Vendre une montre
                   </Link>
@@ -42,7 +42,7 @@ function LinkList() {
                <li>
                   <Link
                      href="/aboutus"
-                     className="hover:text-gray-500 underline"
+                     className="hover:text-gray-500"
                   >
                      A propos de nous
                   </Link>
@@ -50,7 +50,7 @@ function LinkList() {
                <li>
                   <Link
                      href="/certificat"
-                     className="hover:text-gray-500 underline"
+                     className="hover:text-gray-500"
                   >
                      Certificat
                   </Link>
@@ -63,14 +63,14 @@ function LinkList() {
          <nav className="space-x-10">
             <ul className="space-x-28 flex">
                <li>
-                  <Link href="/" className="hover:text-gray-500 underline">
+                  <Link href="/" className="hover:text-gray-500">
                      Accueil
                   </Link>
                </li>
                {/* <li>
                   <Link
                      href="/marketplace"
-                     className="hover:text-gray-500 underline"
+                     className="hover:text-gray-500"
                   >
                      Acheter une montre
                   </Link>
@@ -78,7 +78,7 @@ function LinkList() {
                <li>
                   <Link
                      href="/aboutus"
-                     className="hover:text-gray-500 underline"
+                     className="hover:text-gray-500"
                   >
                      A propos de nous
                   </Link>

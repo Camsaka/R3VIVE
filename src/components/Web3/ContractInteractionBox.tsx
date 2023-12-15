@@ -7,6 +7,8 @@ import {
    addTokenId,
 } from "../../utils/CertifInterractionMethods";
 import abi from "@/data/abiCertif.json";
+import { watchContractEvent } from "@wagmi/core";
+import { ethers } from "ethers";
 
 export type FormDataR3 = {
    name: string;
@@ -15,7 +17,8 @@ export type FormDataR3 = {
    year: string;
    description: string;
    historic: string;
-   picture: string;
+   address: string;
+   tokenid: string;
 };
 
 function ContractInteractionBox() {
@@ -31,6 +34,7 @@ function ContractInteractionBox() {
    const [year, setYear] = useState("");
    const [description, setDescription] = useState("");
    const [historic, setHistoric] = useState("");
+   const [pictures, setPictures] = useState<FileList | null>(null);
 
    function getDates() {
       const currentYear = new Date().getFullYear();
@@ -42,33 +46,40 @@ function ContractInteractionBox() {
    }
 
    async function submitCertificatForm() {
-      // const res = await addTokenId();
-      const data: FormDataR3 = {
+      const { hash, data } = await addTokenId();
+      console.log("hash transaction : ", hash, "data de la transac :", data);
+      const logs = data.logs[0];
+      const abi = [
+         "event TokenAdd (address requester, uint256 tokenid, bool status)",
+      ];
+      let iface = new ethers.Interface(abi);
+      console.log(iface.parseLog(logs));
+      console.log(iface.parseLog(logs)?.args.requester);
+      console.log(iface.parseLog(logs)?.args.tokenid);
+
+      const dataToSubmit: FormDataR3 = {
          name: name,
          brand: brand,
          serialN: serialN,
          year: year,
          description: description,
          historic: historic,
-         picture: "picture.png",
+         address: iface.parseLog(logs)?.args.requester.toString(),
+         tokenid: iface.parseLog(logs)?.args.tokenid.toString(),
       };
-      const resMail = await sendConfirmationMail(data);
-      console.log("response to add token id :", resMail);
+
+      await sendConfirmationMail(dataToSubmit, pictures).then((res) => {
+         setRequestStatus(
+            "Nous avons bien reçu votre demande. Nous allons la traiter dans les plus bref délai."
+         );
+      });
    }
-
-   useContractEvent({
-      address: addressContract,
-      abi: abi,
-      eventName: "TokenAdd",
-      listener(event) {
-         console.log("Event :", event);
-         setRequestStatus("Request ok");
-      },
-   });
-
-   useEffect(() => {
-      // Additional logic or effects can be added here
-   }, [requestStatus]);
+   
+   function handleUploadMultipleFiles(e : any) {
+      console.log(pictures);
+      const listOfFiles = e.target.files;
+      setPictures(listOfFiles);
+   }
 
    return (
       <div className="flex flex-col items-center">
@@ -81,10 +92,12 @@ function ContractInteractionBox() {
             </h1>
             <form
                className="flex w-1/2 flex-col gap-4 items-left"
+               encType="multipart/form-data"
                onSubmit={(e) => {
                   e.preventDefault();
                   submitCertificatForm();
                }}
+               
             >
                {/* nom / modele */}
                <div>
@@ -92,7 +105,7 @@ function ContractInteractionBox() {
                      <Label htmlFor="name" value="Name" />
                   </div>
                   <TextInput
-                     id="small"
+                     id="name"
                      type="text"
                      placeholder="Entrer le modèle de votre montre..."
                      onChange={(e) => setName(e.target.value)}
@@ -190,7 +203,12 @@ function ContractInteractionBox() {
                   <div className="mb-2 block">
                      <Label htmlFor="file" value="Upload file" />
                   </div>
-                  <FileInput id="file" required />
+                  <FileInput
+                     id="file"
+                     onChange={handleUploadMultipleFiles}
+                     required
+                     multiple
+                  />
                </div>
                <button
                   type="submit"

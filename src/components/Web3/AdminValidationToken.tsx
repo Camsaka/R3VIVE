@@ -11,16 +11,15 @@ function AdminValidationToken() {
    // const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_LOCALHOST;
 
    //SEPOLIA
-   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY_TESTNET;
+   const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY_TESTNET;
    
    const [adminAuth, setAdminAuth] = useState(false);
 
    useEffect(() => {
-      if (address?.toLowerCase() == ownerAddress) {
-         console.log("equal");
+      //address.toLowerCase en local
+      if (address == ownerAddress) {
          setAdminAuth(true);
       } else {
-         console.log("not equal");
          setAdminAuth(false);
       }
    }, [address, status, ownerAddress]);
@@ -38,16 +37,13 @@ function AdminValidationToken() {
          <>
             <HeadBar />
             <div
-            className="flex flex-col items-center mt"
+            className="flex flex-col items-center mt h-screen w-screen"
                onMouseMove={() =>
                   setTimeout(() => {
                      router.push("/");
                   }, 3000)
                }
             >
-               <p>
-                  501 vous n&apos;êtes pas autorisé à accéder a cet espace...
-               </p>
             </div>
          </>
       );

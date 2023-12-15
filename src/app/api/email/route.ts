@@ -2,9 +2,12 @@ import { type NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 
+interface CustomFile extends File {
+   buffer: Buffer;
+}
+
 export async function POST(request: NextRequest) {
-   const { name, brand, serialN, year, description, historic, picture } =
-      await request.json();
+   const formData = await request.formData();
 
    const transport = nodemailer.createTransport({
       service: "gmail",
@@ -23,12 +26,23 @@ export async function POST(request: NextRequest) {
       },
    });
 
+   // Convert FileList to an array
+   const picturesArray: CustomFile[] = Array.from(formData);
+
+   // Attachments array for nodemailer
+   const attachments = picturesArray.map((file, index) => ({
+      filename: `picture_${index + 1}.jpg`,
+      content: file.buffer,
+      encoding: "base64",
+   }));
+
    const mailOptions: Mail.Options = {
       from: process.env.NODEMAILER_FROM,
       to: process.env.NODEMAILER_EMAIL,
       // cc: email, (uncomment this line if you want to send a copy to the sender)
       subject: `Message from me `,
-      text: `${name}, ${brand}, ${serialN}, ${year}, ${description}, ${historic}, ${picture}`,
+      text: `${name}, ${brand}, ${serialN}, ${year}, ${description}, ${historic}, ${pictures}, ${address}, ${tokenid}`,
+      attachments: attachments,
    };
 
    const sendMailPromise = () =>
