@@ -34,7 +34,7 @@ function ContractInteractionBox() {
    const [year, setYear] = useState("");
    const [description, setDescription] = useState("");
    const [historic, setHistoric] = useState("");
-   const [pictures, setPictures] = useState<FileList | null>(null);
+   const [pictures, setPictures] = useState<File[]>([]);
 
    function getDates() {
       const currentYear = new Date().getFullYear();
@@ -71,7 +71,10 @@ function ContractInteractionBox() {
       await sendConfirmationMail(dataToSubmit, pictures).then((res) => {
          setRequestStatus(
             "Nous avons bien reçu votre demande. Nous allons la traiter dans les plus bref délai."
-         );
+         )
+      }).catch((err) => {
+            setRequestStatus("Erreur lors de l'envoi du mail veuillez renouveler votre demande.");
+            console.log("ERREUR : ", err);
       });
    }
    
