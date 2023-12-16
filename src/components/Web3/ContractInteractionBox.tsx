@@ -9,6 +9,7 @@ import {
 import abi from "@/data/abiCertif.json";
 import { watchContractEvent } from "@wagmi/core";
 import { ethers } from "ethers";
+import { redirect, useRouter } from "next/navigation";
 
 export type FormDataR3 = {
    name: string;
@@ -35,6 +36,7 @@ function ContractInteractionBox() {
    const [description, setDescription] = useState("");
    const [historic, setHistoric] = useState("");
    const [pictures, setPictures] = useState<File[]>([]);
+   const router = useRouter();
 
    function getDates() {
       const currentYear = new Date().getFullYear();
@@ -68,24 +70,34 @@ function ContractInteractionBox() {
          tokenid: iface.parseLog(logs)?.args.tokenid.toString(),
       };
 
-      await sendConfirmationMail(dataToSubmit, pictures).then((res) => {
-         setRequestStatus(
-            "Nous avons bien reçu votre demande. Nous allons la traiter dans les plus bref délai."
-         )
-      }).catch((err) => {
-            setRequestStatus("Erreur lors de l'envoi du mail veuillez renouveler votre demande.");
+      await sendConfirmationMail(dataToSubmit, pictures)
+         .then((res) => {
+            setRequestStatus(
+               "Nous avons bien reçu votre demande. Nous allons la traiter dans les plus bref délai."
+            );
+            const timer = setTimeout(() => {
+               router.push("/");
+            }, 7000);
+            return () => {
+               clearTimeout(timer);
+             };
+         })
+         .catch((err) => {
+            setRequestStatus(
+               "Erreur lors de l'envoi du mail veuillez renouveler votre demande."
+            );
             console.log("ERREUR : ", err);
-      });
+         });
    }
-   
-   function handleUploadMultipleFiles(e : any) {
+
+   function handleUploadMultipleFiles(e: any) {
       console.log(pictures);
       const listOfFiles = e.target.files;
       setPictures(listOfFiles);
    }
 
    return (
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center text-white">
          <h1 className="text-4xl flex flex-col items-center">
             R3VIVE certificat
          </h1>
@@ -100,12 +112,11 @@ function ContractInteractionBox() {
                   e.preventDefault();
                   submitCertificatForm();
                }}
-               
             >
                {/* nom / modele */}
                <div>
                   <div className="mb-2 block">
-                     <Label htmlFor="name" value="Name" />
+                     <Label htmlFor="name" value="Name" className="text-white" />
                   </div>
                   <TextInput
                      id="name"
@@ -119,7 +130,7 @@ function ContractInteractionBox() {
                {/* marque */}
                <div className="w-1/3">
                   <div className="mb-2 block">
-                     <Label htmlFor="marques" value="Selectionner la marque" />
+                     <Label htmlFor="marques" value="Selectionner la marque" className="text-white" />
                   </div>
                   <Select
                      id="marques"
@@ -142,6 +153,7 @@ function ContractInteractionBox() {
                      <Label
                         htmlFor="yearOfFabrication"
                         value="Selectionner l'année"
+                        className="text-white"
                      />
                   </div>
                   <Select
@@ -162,7 +174,7 @@ function ContractInteractionBox() {
                {/* Numéro de série */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label htmlFor="serialNumber" value="Numero de serie" />
+                     <Label htmlFor="serialNumber" value="Numero de serie" className="text-white"/>
                   </div>
                   <Textarea
                      id="serialNumber"
@@ -176,7 +188,7 @@ function ContractInteractionBox() {
                {/* description */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label htmlFor="description" value="Description" />
+                     <Label htmlFor="description" value="Description" className="text-white"/>
                   </div>
                   <Textarea
                      id="description"
@@ -190,7 +202,7 @@ function ContractInteractionBox() {
                {/* historique */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label htmlFor="history" value="Historique" />
+                     <Label htmlFor="history" value="Historique" className="text-white"/>
                   </div>
                   <Textarea
                      id="history"
@@ -204,7 +216,7 @@ function ContractInteractionBox() {
                {/* Photos */}
                <div id="fileUpload" className="max-w-md">
                   <div className="mb-2 block">
-                     <Label htmlFor="file" value="Upload file" />
+                     <Label htmlFor="file" value="Fichiers à fournir" className="text-white"/>
                   </div>
                   <FileInput
                      id="file"
@@ -215,7 +227,7 @@ function ContractInteractionBox() {
                </div>
                <button
                   type="submit"
-                  className="bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  className="m-5 bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                >
                   Envoyer
                </button>

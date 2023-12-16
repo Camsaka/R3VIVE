@@ -22,12 +22,10 @@ function AdminSideBar() {
                   <Sidebar.Item
                      href="/admin/stats"
                      icon={HiChartPie}
-                     label="Pro"
-                     labelColor="dark"
                   >
                      Stats
                   </Sidebar.Item>
-                  <Sidebar.Item href="/admin/users" icon={HiUser} label="3">
+                  <Sidebar.Item href="/admin/users" icon={HiUser}>
                      Utilisateurs
                   </Sidebar.Item>
                </Sidebar.ItemGroup>

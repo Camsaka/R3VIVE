@@ -21,6 +21,12 @@ function AdminValidationToken() {
          setAdminAuth(true);
       } else {
          setAdminAuth(false);
+         const timer = setTimeout(() => {
+            router.push("/");
+         }, 7000);
+         return () => {
+            clearTimeout(timer);
+          };
       }
    }, [address, status, ownerAddress]);
 
@@ -29,7 +35,7 @@ function AdminValidationToken() {
       return (
          <>
             <HeadBar />
-            <p> connected avec adresse owner</p>
+            <p className="flex m-2 justify-center w-15"> connected avec adresse owner</p>
          </>
       );
    } else {

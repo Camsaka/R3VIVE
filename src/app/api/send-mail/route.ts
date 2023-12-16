@@ -50,13 +50,27 @@ export async function POST(request: NextRequest) {
          pass: process.env.NODEMAILER_PW,
       },
    });
+   const htmlContent = `
+   <h1>Requete de certificat de ${address}</h1>
+   <h2>Données de la requete : </h2>
+   <p>Nom : ${name}</p>
+   <p>Marque : ${brand}</p>
+   <p>Numero de série : ${serialN}</p>
+   <p>Année de fabrication : ${year}</p>
+   <p>Description : ${description}</p>
+   <p>Historique : ${historic}</p>
+   <p>Address du demandeur : ${address}</p>
+   <p>TokenId à valider : ${tokenid}</p>
+   </br>
+   <p>Images pour authenticité en PJ</p>
+   `;
 
    const mailOptions : Mail.Options = {
       from: process.env.NODEMAILER_FROM,
       to: process.env.NODEMAILER_EMAIL,
       // cc: email, (uncomment this line if you want to send a copy to the sender)
-      subject: `Message from me `,
-      text: `${name}, ${brand}, ${serialN}, ${year}, ${description}, ${historic}, ${address}, ${tokenid}`,
+      subject: `Requete de certificat de ${address} `,
+      html: htmlContent,
       attachments: attachments,
    };
 
