@@ -1,6 +1,10 @@
 import { Button } from "flowbite-react";
 import { useRouter } from "next/navigation";
 
+/* 
+Admin button appear on the navbar when owner of the contract is connected.
+See .env file for contract address.
+*/
 function AdminSpaceButton() {
    const router = useRouter();
    return (
@@ -8,7 +12,6 @@ function AdminSpaceButton() {
          className="px-10 flex flex-col mr-5"
          gradientDuoTone="pinkToOrange"
          onClick={() => {
-            console.log("redirect");
             router.push("/admin");
          }}
       >

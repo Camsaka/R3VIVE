@@ -30,6 +30,7 @@
     "flowbite-react": "^0.7.2",
     "flowbite-svelte": "^0.44.20",
     "fs": "^0.0.1-security",
+    "ipfs-http-client": "^60.0.1",
     "lokijs": "^1.5.12",
     "next": "^14.0.4",
     "nodemailer": "^6.9.7",

@@ -1,9 +1,9 @@
-import HeaderBar from "@/components/HeadBar/HeadBar";
-
+/* 
+About us page... TODO
+*/
 export default function AboutUs() {
    return (
       <div>
-         <HeaderBar />
          <p>About us</p>
       </div>
    );

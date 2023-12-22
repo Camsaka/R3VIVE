@@ -3,8 +3,12 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 import Providers from "@/app/_providers/Providers";
 
-// These styles apply to every route in the application
+/* 
+These styles apply to every route in the application
+*/
+
 import "./globals.css";
+import NavBar from "@/components/Navbar/Navbar";
 
 export const metadata: Metadata = {
    title: "R3vive",
@@ -19,7 +23,10 @@ export default function RootLayout({
    return (
       <html lang="en">
          <body className={inter.className}>
-            <Providers>{children}</Providers>
+            <Providers>
+               <NavBar></NavBar>
+               {children}
+            </Providers>
          </body>
       </html>
    );

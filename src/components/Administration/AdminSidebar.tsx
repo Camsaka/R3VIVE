@@ -1,28 +1,18 @@
-"use client";
-
+"use client"
 import { Sidebar } from "flowbite-react";
-import {
-   HiArrowSmRight,
-   HiChartPie,
-   HiInbox,
-   HiShoppingBag,
-   HiTable,
-   HiUser,
-   HiViewBoards,
-} from "react-icons/hi";
+import { HiChartPie, HiTable, HiUser } from "react-icons/hi";
 
+/* Lateral menu for admin interface */
 function AdminSideBar() {
    return (
-         <Sidebar className="h-screen">
+      <div className="full-height bg-white rounded-r-lg">
+         <Sidebar className="h-auto">
             <Sidebar.Items>
                <Sidebar.ItemGroup>
                   <Sidebar.Item href="/admin" icon={HiTable}>
                      Confirmation certificat
                   </Sidebar.Item>
-                  <Sidebar.Item
-                     href="/admin/stats"
-                     icon={HiChartPie}
-                  >
+                  <Sidebar.Item href="/admin/stats" icon={HiChartPie}>
                      Stats
                   </Sidebar.Item>
                   <Sidebar.Item href="/admin/users" icon={HiUser}>
@@ -31,7 +21,7 @@ function AdminSideBar() {
                </Sidebar.ItemGroup>
             </Sidebar.Items>
          </Sidebar>
-
+      </div>
    );
 }
 

@@ -1,14 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import fs from "fs/promises";
-import path from "path";
+
+/* 
+Should move on a backend project
+Describe post methode to send a mail.
+Accessible from : /api/send-mail 
+TODO Api documentation + status return and errors handling
+*/
 
 export async function POST(request: NextRequest) {
    const formData = await request.formData();
-   // console.log(formData);
 
    const files = formData.getAll("files") as File[];
+   const email = formData.get("email");
    const name = formData.get("name");
    const brand = formData.get("brand");
    const year = formData.get("year");
@@ -19,13 +24,12 @@ export async function POST(request: NextRequest) {
    const tokenid = formData.get("tokenid");
 
    if (!files || files.length === 0) {
-      return NextResponse.json({}, { status: 400 });
+      const message = "No pictures linked"
+      return NextResponse.json({message : message}, { status: 400 });
    }
 
    const attachmentsPromises = files.map(async (file: File) => {
-      console.log(file.name);
       const buffer = await file.arrayBuffer();
-      console.log(buffer);
       return {
          filename: file.name,
          content: Buffer.from(buffer),
@@ -53,6 +57,7 @@ export async function POST(request: NextRequest) {
    const htmlContent = `
    <h1>Requete de certificat de ${address}</h1>
    <h2>Données de la requete : </h2>
+   <p>Email : ${email}</p>
    <p>Nom : ${name}</p>
    <p>Marque : ${brand}</p>
    <p>Numero de série : ${serialN}</p>
@@ -60,13 +65,12 @@ export async function POST(request: NextRequest) {
    <p>Description : ${description}</p>
    <p>Historique : ${historic}</p>
    <p>Address du demandeur : ${address}</p>
-   <p>TokenId à valider : ${tokenid}</p>
    </br>
    <p>Images pour authenticité en PJ</p>
    `;
 
    const mailOptions : Mail.Options = {
-      from: process.env.NODEMAILER_FROM,
+      from: `${name} <${email}>`,
       to: process.env.NODEMAILER_EMAIL,
       // cc: email, (uncomment this line if you want to send a copy to the sender)
       subject: `Requete de certificat de ${address} `,
@@ -83,7 +87,8 @@ export async function POST(request: NextRequest) {
             lastModified: new Date(file.lastModified),
          })),
       });
-   } catch (err: any) {
-      return NextResponse.json({ error: err.message }, { status: 500 });
+   } catch (err : any) {
+      const message = "Erreur lors de l'envoi du mail de requete certif."
+      return NextResponse.json({message, error: err.message }, { status: 500 });
    }
 }

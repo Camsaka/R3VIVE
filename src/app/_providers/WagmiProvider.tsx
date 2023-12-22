@@ -1,22 +1,19 @@
+"use client"
 import React from "react";
-import {
-   EthereumClient,
-   w3mConnectors,
-   w3mProvider,
-} from "@web3modal/ethereum";
-import { Web3Modal } from "@web3modal/react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { sepolia, localhost } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { infuraProvider } from "@wagmi/core/providers/infura";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
+import {ProviderProps} from "@/types/types"
 
-type WagmiProviderProps = {
-   children: React.ReactNode;
-};
+/* 
+Wagmi provider for web3modal and blockchain node provider 
+*/
+
+
 
 const projectId = process.env.NEXT_PUBLIC_W3C_PID;
 
@@ -52,7 +49,7 @@ const wagmiConfig = createConfig({
 
 createWeb3Modal({ wagmiConfig, projectId, chains });
 
-function WagmiProvider({ children }: WagmiProviderProps) {
+function WagmiProvider({ children }: ProviderProps) {
    return <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>;
 }
 

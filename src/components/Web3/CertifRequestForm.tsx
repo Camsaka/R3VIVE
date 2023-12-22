@@ -1,76 +1,45 @@
 "use client";
-import { useEffect, useState } from "react";
 import { FileInput, Label, Select, Textarea, TextInput } from "flowbite-react";
-import { useContractEvent, useWebSocketPublicClient } from "wagmi";
-import {
-   sendConfirmationMail,
-   addTokenId,
-} from "../../utils/CertifInterractionMethods";
-import abi from "@/data/abiCertif.json";
-import { watchContractEvent } from "@wagmi/core";
+
+import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ethers } from "ethers";
-import { redirect, useRouter } from "next/navigation";
+import { FormDataR3 } from "@/types/types";
 
-export type FormDataR3 = {
-   name: string;
-   brand: string;
-   serialN: string;
-   year: string;
-   description: string;
-   historic: string;
-   address: string;
-   tokenid: string;
-};
+import { addTokenId } from "@/utils/SmartContract";
+import { sendConfirmationMail } from "@/utils/Mailing";
+import getDates from "@/utils/Dates";
+import { AccountContext } from "@/app/context/AccountContext";
 
-function ContractInteractionBox() {
+/* 
+Confirmation mintability form : Get form datas and send a mail to r3vive mail box to confirmed
+All fields are required
+Call mail sending from @utils 
+*/
+function CertifRequestForm() {
    const marques = ["Rolex", "Audemard Piguet", "Cartier", "Breitling"];
    const dates = getDates()!;
    const [requestStatus, setRequestStatus] = useState("");
-   const addressContract =
-      process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA;
-
-   const [name, setName] = useState("");
-   const [brand, setBrand] = useState("");
-   const [serialN, setSerialN] = useState("");
-   const [year, setYear] = useState("");
-   const [description, setDescription] = useState("");
-   const [historic, setHistoric] = useState("");
-   const [pictures, setPictures] = useState<File[]>([]);
    const router = useRouter();
+   const account = useContext(AccountContext);
 
-   function getDates() {
-      const currentYear = new Date().getFullYear();
-      const dates: Number[] = []!;
-      for (let i = currentYear - 300; i <= currentYear; i++) {
-         dates.push(i);
-      }
-      return dates.reverse();
-   }
+   async function submitCertificatForm(e : any) {
+      e.preventDefault();
+      // const { data } = await addTokenId();
+      // const logs = data.logs[0];
+      // const abi = [
+      //    "event TokenAdd (address requester, uint256 tokenid, bool status)",
+      // ];
+      
+      // let iface = new ethers.Interface(abi);
+      // const address = iface.parseLog(logs)?.args.requester.toString();
+      // const tokenid = iface.parseLog(logs)?.args.tokenid.toString();
 
-   async function submitCertificatForm() {
-      const { hash, data } = await addTokenId();
-      console.log("hash transaction : ", hash, "data de la transac :", data);
-      const logs = data.logs[0];
-      const abi = [
-         "event TokenAdd (address requester, uint256 tokenid, bool status)",
-      ];
-      let iface = new ethers.Interface(abi);
-      console.log(iface.parseLog(logs));
-      console.log(iface.parseLog(logs)?.args.requester);
-      console.log(iface.parseLog(logs)?.args.tokenid);
+      const dataToSubmit : FormData = new FormData(e.target);
+      const address = account?.address || "0x";
+      dataToSubmit.append("address",address);
 
-      const dataToSubmit: FormDataR3 = {
-         name: name,
-         brand: brand,
-         serialN: serialN,
-         year: year,
-         description: description,
-         historic: historic,
-         address: iface.parseLog(logs)?.args.requester.toString(),
-         tokenid: iface.parseLog(logs)?.args.tokenid.toString(),
-      };
-
-      await sendConfirmationMail(dataToSubmit, pictures)
+      await sendConfirmationMail(dataToSubmit)
          .then((res) => {
             setRequestStatus(
                "Nous avons bien reçu votre demande. Nous allons la traiter dans les plus bref délai."
@@ -80,20 +49,13 @@ function ContractInteractionBox() {
             }, 7000);
             return () => {
                clearTimeout(timer);
-             };
+            };
          })
          .catch((err) => {
             setRequestStatus(
                "Erreur lors de l'envoi du mail veuillez renouveler votre demande."
             );
-            console.log("ERREUR : ", err);
          });
-   }
-
-   function handleUploadMultipleFiles(e: any) {
-      console.log(pictures);
-      const listOfFiles = e.target.files;
-      setPictures(listOfFiles);
    }
 
    return (
@@ -108,21 +70,39 @@ function ContractInteractionBox() {
             <form
                className="flex w-1/2 flex-col gap-4 items-left"
                encType="multipart/form-data"
-               onSubmit={(e) => {
-                  e.preventDefault();
-                  submitCertificatForm();
-               }}
+               onSubmit={submitCertificatForm}
             >
+               {/* email */}
+               <div>
+                  <div className="mb-2 block">
+                     <Label
+                        htmlFor="email"
+                        value="email"
+                        className="text-white"
+                     />
+                  </div>
+                  <TextInput
+                     id="email"
+                     name="email"
+                     type="email"
+                     placeholder="Email"
+                     required
+                  />
+               </div>
                {/* nom / modele */}
                <div>
                   <div className="mb-2 block">
-                     <Label htmlFor="name" value="Name" className="text-white" />
+                     <Label
+                        htmlFor="name"
+                        value="Name"
+                        className="text-white"
+                     />
                   </div>
                   <TextInput
                      id="name"
+                     name="name"
                      type="text"
                      placeholder="Entrer le modèle de votre montre..."
-                     onChange={(e) => setName(e.target.value)}
                      required
                   />
                </div>
@@ -130,13 +110,17 @@ function ContractInteractionBox() {
                {/* marque */}
                <div className="w-1/3">
                   <div className="mb-2 block">
-                     <Label htmlFor="marques" value="Selectionner la marque" className="text-white" />
+                     <Label
+                        htmlFor="brand"
+                        value="Selectionner la marque"
+                        className="text-white"
+                     />
                   </div>
                   <Select
-                     id="marques"
+                     id="brand"
+                     name="brand"
                      defaultValue="none"
                      required
-                     onChange={(e) => setBrand(e.target.value)}
                   >
                      <option value="none" disabled hidden>
                         ---
@@ -151,16 +135,16 @@ function ContractInteractionBox() {
                <div className="w-1/3">
                   <div className="mb-2 block">
                      <Label
-                        htmlFor="yearOfFabrication"
+                        htmlFor="year"
                         value="Selectionner l'année"
                         className="text-white"
                      />
                   </div>
                   <Select
-                     id="yearOfFabrication"
+                     id="year"
+                     name="year"
                      defaultValue="none"
                      required
-                     onChange={(e) => setYear(e.target.value)}
                   >
                      <option value="none" disabled hidden>
                         ---
@@ -174,53 +158,70 @@ function ContractInteractionBox() {
                {/* Numéro de série */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label htmlFor="serialNumber" value="Numero de serie" className="text-white"/>
+                     <Label
+                        htmlFor="serialN"
+                        value="Numero de serie"
+                        className="text-white"
+                     />
                   </div>
                   <Textarea
-                     id="serialNumber"
+                     id="serialN"
+                     name="serialN"
                      placeholder="Numero de série..."
                      required
                      rows={1}
-                     onChange={(e) => setSerialN(e.target.value)}
                   />
                </div>
 
                {/* description */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label htmlFor="description" value="Description" className="text-white"/>
+                     <Label
+                        htmlFor="description"
+                        value="Description"
+                        className="text-white"
+                     />
                   </div>
                   <Textarea
                      id="description"
+                     name="description"
                      placeholder="Laissé une breve description de votre bien ..."
                      required
                      rows={3}
-                     onChange={(e) => setDescription(e.target.value)}
                   />
                </div>
 
                {/* historique */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label htmlFor="history" value="Historique" className="text-white"/>
+                     <Label
+                        htmlFor="historic"
+                        value="Historique"
+                        className="text-white"
+                     />
                   </div>
                   <Textarea
-                     id="history"
+                     id="historic"
+                     name="historic"
                      placeholder="Entrer le maximum d'information sur l'histoire de votre montre..."
                      required
                      rows={7}
-                     onChange={(e) => setHistoric(e.target.value)}
                   />
                </div>
 
                {/* Photos */}
                <div id="fileUpload" className="max-w-md">
                   <div className="mb-2 block">
-                     <Label htmlFor="file" value="Fichiers à fournir" className="text-white"/>
+                     <Label
+                        htmlFor="files"
+                        value="Fichiers à fournir"
+                        className="text-white"
+                     />
                   </div>
                   <FileInput
-                     id="file"
-                     onChange={handleUploadMultipleFiles}
+                     id="files"
+                     name="files"
+                     accept="image/*"
                      required
                      multiple
                   />
@@ -238,4 +239,4 @@ function ContractInteractionBox() {
    );
 }
 
-export default ContractInteractionBox;
+export default CertifRequestForm;

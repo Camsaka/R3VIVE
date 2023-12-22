@@ -1,25 +1,38 @@
 "use client";
+import { useAccountContext } from "@/app/context/AccountContext";
 import { useEffect, useState } from "react";
-import { resolveTripleslashReference } from "typescript";
 import { useAccount } from "wagmi";
 import { useBalance } from "wagmi";
 
+/* 
+Box to display connected account infos.
+*/
 function AccountInfos() {
-   const { address, isConnecting, isDisconnected, status } = useAccount();
-   const { data } = useBalance({ address: address});
-   const [isClient, setIsClient] = useState(false);
-   
+   const accountContext = useAccountContext();
+
+   const [account, setAccount] = useState<
+      ReturnType<typeof useAccount> | undefined
+   >(undefined);
+
    useEffect(() => {
-      setIsClient(true);
-   }, []);
+      setAccount(accountContext);
+   }, [accountContext]);
+
+   const {data} = useBalance({address : account?.address});
 
 
    return (
       <div className="w-1/3 ml-10 mb-10 mt-10 p-2">
-         {isClient && (
+         {account?.address != undefined && (
             <div >
-               <p>Address : {address}</p>
+               <p>Address : {account?.address}</p>
                <p>Montant diponible : {data?.formatted} {data?.symbol}</p>
+            </div>
+         )}
+         {account?.address == undefined && (
+            <div >
+               <p>Connecté un wallet pour faire votre demande</p>
+
             </div>
          )}
       </div>
