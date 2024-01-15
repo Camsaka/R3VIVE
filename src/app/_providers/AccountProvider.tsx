@@ -7,11 +7,9 @@ import { useAccount } from "wagmi";
 function AccountProvider({ children }: ProviderProps) {
    const data = useAccount();
    const [account, setAccount] = useState<ReturnType<typeof useAccount>>(data);
-   useEffect(() => {
-      setAccount(data);
-   }, []);
 
    useEffect(() => {
+      console.log("effect")
       setAccount(data);
    }, [data.address]);
 

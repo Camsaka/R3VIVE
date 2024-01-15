@@ -27,7 +27,14 @@ interface LinkListProps {
             {isConnected && (
                <li>
                   <Link href="/certificat" className="hover:text-gray-500">
-                     Certificat
+                     Demander mon certificat
+                  </Link>
+               </li>
+            )}
+                        {isConnected && (
+               <li>
+                  <Link href="/user-space" className="hover:text-gray-500">
+                     Requetes et certificat
                   </Link>
                </li>
             )}

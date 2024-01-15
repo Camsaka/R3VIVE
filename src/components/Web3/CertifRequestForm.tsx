@@ -3,11 +3,8 @@ import { FileInput, Label, Select, Textarea, TextInput } from "flowbite-react";
 
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ethers } from "ethers";
-import { FormDataR3 } from "@/types/types";
 
-import { addTokenId } from "@/utils/SmartContract";
-import { sendConfirmationMail } from "@/utils/Mailing";
+import { sendCertifRequest } from "@/utils/Mailing";
 import getDates from "@/utils/Dates";
 import { AccountContext } from "@/app/context/AccountContext";
 
@@ -23,23 +20,23 @@ function CertifRequestForm() {
    const router = useRouter();
    const account = useContext(AccountContext);
 
-   async function submitCertificatForm(e : any) {
+   async function submitCertificatForm(e: any) {
       e.preventDefault();
       // const { data } = await addTokenId();
       // const logs = data.logs[0];
       // const abi = [
       //    "event TokenAdd (address requester, uint256 tokenid, bool status)",
       // ];
-      
+
       // let iface = new ethers.Interface(abi);
       // const address = iface.parseLog(logs)?.args.requester.toString();
       // const tokenid = iface.parseLog(logs)?.args.tokenid.toString();
 
-      const dataToSubmit : FormData = new FormData(e.target);
+      const dataToSubmit: FormData = new FormData(e.target);
       const address = account?.address || "0x";
-      dataToSubmit.append("address",address);
+      dataToSubmit.append("address", address);
 
-      await sendConfirmationMail(dataToSubmit)
+      await sendCertifRequest(dataToSubmit)
          .then((res) => {
             setRequestStatus(
                "Nous avons bien reçu votre demande. Nous allons la traiter dans les plus bref délai."
@@ -116,12 +113,7 @@ function CertifRequestForm() {
                         className="text-white"
                      />
                   </div>
-                  <Select
-                     id="brand"
-                     name="brand"
-                     defaultValue="none"
-                     required
-                  >
+                  <Select id="brand" name="brand" defaultValue="none" required>
                      <option value="none" disabled hidden>
                         ---
                      </option>
@@ -140,12 +132,7 @@ function CertifRequestForm() {
                         className="text-white"
                      />
                   </div>
-                  <Select
-                     id="year"
-                     name="year"
-                     defaultValue="none"
-                     required
-                  >
+                  <Select id="year" name="year" defaultValue="none" required>
                      <option value="none" disabled hidden>
                         ---
                      </option>

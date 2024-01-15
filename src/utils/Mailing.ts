@@ -1,8 +1,15 @@
-export async function sendConfirmationMail(data: FormData) {
-   await fetch("/api/send-mail", {
+export async function sendCertifRequest(data: FormData) {
+   await fetch("/api/request-certif", {
       method: "POST",
       body: data,
    });
 }
 
-export default { sendConfirmationMail };
+export async function getListOfCertif(address: String | any) {
+   const url = `/api/get-requests?address=${address}`;
+   return await fetch(url, {
+      method: "GET",
+   });
+}
+
+export default { sendCertifRequest, getListOfCertif };

@@ -1,13 +1,15 @@
 import { type NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
+import { PrismaClient } from '@prisma/client';
 
 /* 
 Should move on a backend project
-Describe post methode to send a mail.
-Accessible from : /api/send-mail 
-TODO Api documentation + status return and errors handling
+Describe post methode to send a mail and upload data on vercel postgres storage db.
+Accessible from : /api/request-certif.
 */
+
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
    const formData = await request.formData();
@@ -21,7 +23,6 @@ export async function POST(request: NextRequest) {
    const description = formData.get("description");
    const historic = formData.get("historic");
    const address = formData.get("address");
-   const tokenid = formData.get("tokenid");
 
    if (!files || files.length === 0) {
       const message = "No pictures linked"
@@ -40,20 +41,12 @@ export async function POST(request: NextRequest) {
 
    const transport = nodemailer.createTransport({
       service: "gmail",
-      /* 
-      setting service as 'gmail' is same as providing these setings:
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true
-      If you want to use a different email provider other than gmail, you need to provide these manually.
-      Or you can go use these well known services and their settings at
-      https://github.com/nodemailer/nodemailer/blob/master/lib/well-known/services.json
-  */
       auth: {
          user: process.env.NODEMAILER_EMAIL,
          pass: process.env.NODEMAILER_PW,
       },
    });
+
    const htmlContent = `
    <h1>Requete de certificat de ${address}</h1>
    <h2>Données de la requete : </h2>
@@ -80,6 +73,21 @@ export async function POST(request: NextRequest) {
 
    try {
       await transport.sendMail(mailOptions);
+      const newCertif = await prisma.certifRequest.create({
+         data: {
+            email: email?.toString() || "",
+            name : name?.toString() || "",
+            brand: brand?.toString() || "",
+            year: year?.toString() || "",
+            serialn: serialN?.toString() || "",
+            description: description?.toString() || "",
+            historic: historic?.toString() || "",    
+            address: address?.toString() || "",
+         },
+       });
+      
+      //prisma request
+      const certifRequests = await prisma.certifRequest.findMany();
       return NextResponse.json({
          files: files.map((file: File) => ({
             name: file.name,
