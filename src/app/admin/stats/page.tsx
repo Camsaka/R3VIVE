@@ -10,7 +10,7 @@ Dashboard customers interactions and smart contract status like balance, number 
 TODO : Withdraw function for admin or founders
 */
 
-export default function adminPage() {
+export default function StatsAdminPage() {
    const router = useRouter();
    //SEPOLIA
    const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY_TESTNET;

@@ -11,7 +11,7 @@ Admin confirmation token page.
 Can fill the form and confirmed request datas and available mintability of the certificate token
 */
 
-export default function adminPage() {
+export default function AdminPage() {
    const router = useRouter();
    //SEPOLIA
    const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY_TESTNET;

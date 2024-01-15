@@ -10,7 +10,7 @@ List all users and more infos about certificates owned, how many...
 */
 
 
-export default function adminPage() {
+export default function UsersAdminPage() {
    const router = useRouter();
    //SEPOLIA
    const ownerAddress = process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY_TESTNET;
