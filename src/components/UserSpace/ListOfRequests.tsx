@@ -32,13 +32,13 @@ function ListOfRequests() {
 
    return (
       <>
-         {requests.length == 0 && <h1 className="text-center text-2xl"> Vous n'avez passé aucune requete </h1>}
+         {requests.length == 0 && <h1 className="text-center text-2xl"> Vous n&apos;avez passé aucune requete </h1>}
          {requests.length > 0 && (
             <Accordion>
                {requests.map((value: any, index) => (
-                  <Accordion.Panel>
+                  <Accordion.Panel key={index}>
                      <Accordion.Title>
-                        {value.name} {value.brand}
+                        {value.name}{value.brand}
                      </Accordion.Title>
                      <Accordion.Content>
                         <h1 className="mb-2 text-gray-500 dark:text-gray-400">
