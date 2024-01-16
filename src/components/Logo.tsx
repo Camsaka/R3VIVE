@@ -14,7 +14,7 @@ function Logo(props: LogoProps) {
    return (
       <>
          <Image
-            className="rounded-lg"
+            className="rounded-lg my-10"
             src={logo}
             alt="logo"
             width={props.w}

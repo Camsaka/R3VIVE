@@ -9,7 +9,6 @@ function AccountProvider({ children }: ProviderProps) {
    const [account, setAccount] = useState<ReturnType<typeof useAccount>>(data);
 
    useEffect(() => {
-      console.log("effect")
       setAccount(data);
    }, [data.address]);
 

@@ -4,7 +4,7 @@ import { FileInput, Label, Select, Textarea, TextInput } from "flowbite-react";
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { sendCertifRequest } from "@/utils/Mailing";
+import { sendCertifRequest } from "@/utils/requestsCertif";
 import getDates from "@/utils/Dates";
 import { AccountContext } from "@/app/context/AccountContext";
 
@@ -56,7 +56,7 @@ function CertifRequestForm() {
    }
 
    return (
-      <div className="flex flex-col items-center text-white">
+      <div className="flex flex-col items-center">
          <h1 className="text-4xl flex flex-col items-center">
             R3VIVE certificat
          </h1>
@@ -72,11 +72,7 @@ function CertifRequestForm() {
                {/* email */}
                <div>
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="email"
-                        value="email"
-                        className="text-white"
-                     />
+                     <label htmlFor="email">Email</label>
                   </div>
                   <TextInput
                      id="email"
@@ -89,11 +85,7 @@ function CertifRequestForm() {
                {/* nom / modele */}
                <div>
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="name"
-                        value="Name"
-                        className="text-white"
-                     />
+                     <label htmlFor="name">Name</label>
                   </div>
                   <TextInput
                      id="name"
@@ -107,11 +99,7 @@ function CertifRequestForm() {
                {/* marque */}
                <div className="w-1/3">
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="brand"
-                        value="Selectionner la marque"
-                        className="text-white"
-                     />
+                     <label htmlFor="brand">Selectionner la marque</label>
                   </div>
                   <Select id="brand" name="brand" defaultValue="none" required>
                      <option value="none" disabled hidden>
@@ -126,11 +114,7 @@ function CertifRequestForm() {
                {/* Annee de fabrication */}
                <div className="w-1/3">
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="year"
-                        value="Selectionner l'année"
-                        className="text-white"
-                     />
+                     <label htmlFor="year">Selectionner l'année</label>
                   </div>
                   <Select id="year" name="year" defaultValue="none" required>
                      <option value="none" disabled hidden>
@@ -145,11 +129,7 @@ function CertifRequestForm() {
                {/* Numéro de série */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="serialN"
-                        value="Numero de serie"
-                        className="text-white"
-                     />
+                     <label htmlFor="serialN">Numero de serie</label>
                   </div>
                   <Textarea
                      id="serialN"
@@ -163,11 +143,7 @@ function CertifRequestForm() {
                {/* description */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="description"
-                        value="Description"
-                        className="text-white"
-                     />
+                     <label htmlFor="description">Description</label>
                   </div>
                   <Textarea
                      id="description"
@@ -181,11 +157,7 @@ function CertifRequestForm() {
                {/* historique */}
                <div className="w-full">
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="historic"
-                        value="Historique"
-                        className="text-white"
-                     />
+                     <label htmlFor="historic">Historique</label>
                   </div>
                   <Textarea
                      id="historic"
@@ -199,11 +171,7 @@ function CertifRequestForm() {
                {/* Photos */}
                <div id="fileUpload" className="max-w-md">
                   <div className="mb-2 block">
-                     <Label
-                        htmlFor="files"
-                        value="Fichiers à fournir"
-                        className="text-white"
-                     />
+                     <label htmlFor="files">Fichiers à fournir</label>
                   </div>
                   <FileInput
                      id="files"

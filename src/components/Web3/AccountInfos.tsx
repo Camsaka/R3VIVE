@@ -22,10 +22,10 @@ function AccountInfos() {
 
 
    return (
-      <div className="w-1/3 ml-10 mb-10 mt-10 p-2">
+      <div className="w-1/3 ml-10 mb-10 mt-10 p-2 ">
          {account?.address != undefined && (
             <div >
-               <p>Address : {account?.address}</p>
+               <p className="dark:text-white">Address : {account?.address}</p>
                <p>Montant diponible : {data?.formatted} {data?.symbol}</p>
             </div>
          )}

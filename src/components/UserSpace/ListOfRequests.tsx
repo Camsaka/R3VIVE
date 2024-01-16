@@ -5,16 +5,8 @@ List of requests of the user with status and possibility to mint if accepted
 import { Accordion } from "flowbite-react";
 import { useAccountContext } from "@/app/context/AccountContext";
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
-import { getListOfCertif } from "@/utils/Mailing";
+import { getListOfCertif } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
-
-async function getRequests(address: String | undefined) {
-   if (address != undefined) {
-      const requests = await getListOfCertif(address);
-      return requests;
-   }
-}
 
 function ListOfRequests() {
    const accountContext = useAccountContext();
@@ -32,36 +24,42 @@ function ListOfRequests() {
 
    return (
       <>
-         {requests.length == 0 && <h1 className="text-center text-2xl"> Vous n&apos;avez passé aucune requete </h1>}
+         {requests.length == 0 && (
+            <h1 className="text-center text-2xl">
+               {" "}
+               Vous n&apos;avez passé aucune requete{" "}
+            </h1>
+         )}
          {requests.length > 0 && (
-            <Accordion>
-               {requests.map((value: any, index) => (
-                  <Accordion.Panel key={index}>
-                     <Accordion.Title>
-                        {value.name}{value.brand}
-                     </Accordion.Title>
-                     <Accordion.Content>
-                        <h1 className="mb-2 text-gray-500 dark:text-gray-400">
+            <>
+               <a className="underline decoration-sky-500 mb-14 text-xl">Mes certificats : </a>
+               <Accordion collapseAll className="my-5">
+                  {requests.map((value: any, index) => (
+                     <Accordion.Panel key={index}>
+                        <Accordion.Title className="">
+                           {value.name}
                            {value.brand}
-                        </h1>
-                        <h2 className="mb-2 text-gray-500 dark:text-gray-400">
-                           {value.year}
-                        </h2>
-                        <p>{value.serialn}</p>
-                        <p>{value.description}</p>
-                        <p>{value.historic}</p>
-                        <p>{value.serialN}</p>
-                        <Button
-                           className="px-10 flex flex-col mt-5 justify-self-end"
-                           gradientMonochrome="cyan"
-                           onClick={() => {}}
-                        >
-                           Mint
-                        </Button>
-                     </Accordion.Content>
-                  </Accordion.Panel>
-               ))}
-            </Accordion>
+                        </Accordion.Title>
+                        <Accordion.Content>
+                           <h1 className="mb-2">{value.brand}</h1>
+                           <h2 className="mb-2">{value.year}</h2>
+                           <p>{value.serialn}</p>
+                           <p>{value.description}</p>
+                           <p>{value.historic}</p>
+                           <p>{value.serialN}</p>
+                           <Button
+                              className="px-10 flex flex-col mt-5 justify-self-end"
+                              gradientMonochrome="cyan"
+                              onClick={() => {}}
+                              disabled={!value.mintable}
+                           >
+                              Mint
+                           </Button>
+                        </Accordion.Content>
+                     </Accordion.Panel>
+                  ))}
+               </Accordion>
+            </>
          )}
       </>
    );

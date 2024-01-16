@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import AdminSideBar from "@/components/Administration/AdminSidebar";
-import ConfirmationForm from "@/components/Administration/ConfirmationForm";
+import ConfirmationTable from "@/components/Administration/ConfirmationTable";
 import { useAccountContext } from "../context/AccountContext";
 
 /* 
@@ -24,7 +24,9 @@ export default function AdminPage() {
       <>
          <div className="flex flex-row w-screen full-height mt-2">
             <AdminSideBar />
-            <ConfirmationForm />
+            <div className="flex justify-self-center ml-44 mt-10 space-y-6">
+               <ConfirmationTable />
+            </div>
          </div>
       </>
    );

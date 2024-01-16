@@ -5,7 +5,7 @@ import { HiChartPie, HiTable, HiUser } from "react-icons/hi";
 /* Lateral menu for admin interface */
 function AdminSideBar() {
    return (
-      <div className="full-height bg-white rounded-r-lg">
+      <div className="full-height rounded-r-lg">
          <Sidebar className="h-auto">
             <Sidebar.Items>
                <Sidebar.ItemGroup>

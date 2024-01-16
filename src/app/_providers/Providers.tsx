@@ -1,7 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import WagmiProvider from "./WagmiProvider";
 import AccountProvider from "./AccountProvider";
+import { ThemeProvider } from "next-themes";
+
 /* 
 Export all providers to injected them in then layout
 */
@@ -11,10 +13,26 @@ type ProviderType = {
 };
 
 function Providers({ children }: ProviderType) {
+   const [mounted, setMounted] = useState(false);
+
+   useEffect(() => {
+      setMounted(true);
+   }, []);
+
+   if (!mounted) {
+      return (
+         <WagmiProvider>
+            <AccountProvider>{children}</AccountProvider>
+         </WagmiProvider>
+      );
+   }
+
    return (
-      <WagmiProvider>
-         <AccountProvider>{children}</AccountProvider>
-      </WagmiProvider>
+      <ThemeProvider>
+         <WagmiProvider>
+            <AccountProvider>{children}</AccountProvider>
+         </WagmiProvider>
+      </ThemeProvider>
    );
 }
 

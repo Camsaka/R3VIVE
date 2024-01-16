@@ -11,13 +11,20 @@ datasource db {
 }
 
 model CertifRequest {
-  id          String   @id @default(cuid())
-  email       String
-  name        String
-  brand       String
-  year        String
-  serialn     String
-  description String
-  historic    String
-  address     String
+  id             String   @id @default(cuid())
+  email          String
+  name           String
+  brand          String
+  year           String
+  serialn        String
+  description    String
+  historic       String
+  address        String
+  mintable       Boolean  @default(false)
+  dateofcreation DateTime @default(now())
+}
+
+model CertifIPFSData {
+  id  String @id @default(cuid())
+  uri String @unique
 }

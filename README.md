@@ -6,6 +6,13 @@ First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
@@ -21,3 +28,10 @@ In the .env.local file you should implement the same address without "0x" caract
 
 This project actual version is deploy on vercel, try it yourself at : https://r3vive.vercel.app/
 
+## Prisma
+```
+vercel link
+vercel env pull .env.development.local 
+prisma generate (when changing the schema)
+dotenv -e .env.local (or .env.development.local) -- npx prisma db push (to synchronize vercel db with schema)
+```
