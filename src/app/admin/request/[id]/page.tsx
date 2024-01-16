@@ -46,7 +46,7 @@ export default async function RequestDetailPage({
          <p>Address du propriétaire : {data.address}</p>
          <p>Date de la requete : {data.dateofcreation}</p>
          <div className="flex flex-row justify-center space-x-8 mt-10">
-            <ValidationButton />
+            <ValidationButton identifiant={id} />
             <Button gradientMonochrome="failure">Rejeter</Button>
          </div>
       </div>

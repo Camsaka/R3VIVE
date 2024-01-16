@@ -13,9 +13,9 @@ async function validateReq(id: string | undefined) {
       console.error("Error in validateReq", error);
    }
 }
-function ValidationButton() {
+function ValidationButton(props : { identifiant: string; }) {
    return (
-      <Button gradientMonochrome="success" onClick={() => validateReq(id)}>
+      <Button gradientMonochrome="success" onClick={() => validateReq(props.identifiant)}>
          Accepter
       </Button>
    );
