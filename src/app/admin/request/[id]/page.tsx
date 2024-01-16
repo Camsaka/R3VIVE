@@ -9,12 +9,9 @@ import ValidationButton from "@/components/Administration/ButtonValidation";
 export const dynamicParams = false;
 export async function generateStaticParams() {
    try {
-      console.log("generate Static params");
       const requests = await getAllRequestsActiveServerSide();
       const data = await requests.json();
-      console.log("params generate", data);
       if (Array.isArray(data)) {
-         console.log("getStaticParams", requests);
          return data.map((request) => ({
             id: request.id,
          }));
