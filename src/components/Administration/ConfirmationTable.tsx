@@ -1,12 +1,10 @@
 "use client";
-import { useAccountContext } from "@/app/context/AccountContext";
 import { getAllRequestsActive } from "@/utils/requestsCertif";
 import { Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 
 export default function ConfirmationTable() {
    const [requests, setRequests] = useState([]);
-   const accountContext = useAccountContext();
 
    const getRequests = () => {
       getAllRequestsActive()
@@ -18,8 +16,7 @@ export default function ConfirmationTable() {
 
    useEffect(() => {
       getRequests();
-   }, [accountContext]);
-   console.log("render")
+   }, []);
 
    return (
       <>
