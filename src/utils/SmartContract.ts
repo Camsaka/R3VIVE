@@ -26,6 +26,9 @@ export async function addTokenId() {
 
 export function confirmedTokenId(address: string, tokenid: string){}
 
+const smartcontractsfunctions = {
+   addTokenId, confirmedTokenId 
+ }
 
 
-export default { addTokenId, confirmedTokenId };
+export default smartcontractsfunctions;

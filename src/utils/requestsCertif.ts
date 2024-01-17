@@ -26,19 +26,28 @@ export async function getAllRequestsActiveServerSide() {
    });
 }
 
-export async function getRequestById(id: string | undefined){
-   const url = process.env.STATIC_URL_REQUESTS + `/api/get-requestbyid?id=${id}`
+export async function getRequestById(id: string) {
+   const url =
+      process.env.STATIC_URL_REQUESTS + `/api/get-requestbyid?id=${id}`;
    return await fetch(url, {
       method: "GET",
    });
 }
 
-export async function validateRequest(id : string | undefined){
+export async function validateRequest(id: string | undefined) {
    const url = `/api/validate-request?id=${id}`;
-   return await fetch(url,{
-      method:"PUT",
-   })
+   return await fetch(url, {
+      method: "PUT",
+   });
 }
 
+const requestCertifMethods = {
+   sendCertifRequest,
+   getListOfCertif,
+   getAllRequestsActive,
+   getAllRequestsActiveServerSide,
+   getRequestById,
+   validateRequest,
+};
 
-export default { sendCertifRequest, getListOfCertif, getAllRequestsActive, getAllRequestsActiveServerSide, getRequestById };
+export default requestCertifMethods;

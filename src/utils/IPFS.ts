@@ -14,5 +14,8 @@ export async function uploadMetadata(dataToUpload: FormDataR3Validation){
    //set image url(ipfs), upload metadata and get his hash
 }
 
+const uploadIPFSMethod = {
+   uploadPicture, uploadMetadata
+}
 
-export default {uploadPicture, uploadMetadata}
+export default uploadIPFSMethod;

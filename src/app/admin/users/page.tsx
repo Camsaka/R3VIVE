@@ -17,6 +17,7 @@ export default function UsersAdminPage() {
    const account = useAccountContext();
    useEffect(() => {
       if (account?.address != ownerAddress) router.push("/");
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [account]);
    return (
       <>

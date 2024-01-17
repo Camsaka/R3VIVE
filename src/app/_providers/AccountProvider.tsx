@@ -10,6 +10,7 @@ function AccountProvider({ children }: ProviderProps) {
 
    useEffect(() => {
       setAccount(data);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [data.address]);
 
    return (
