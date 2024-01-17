@@ -1,27 +1,10 @@
 // /src/admin/request/[id]/page.tsx
 import {
-   getAllRequestsActiveServerSide,
    getRequestById,
 } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
 import ValidationButton from "@/components/Administration/ButtonValidation";
 
-
-
-//unable non-exixting route to be load on the fly
-export const dynamicParams = false;
-
-//generate static parameters "id" for each request loaded
-export async function generateStaticParams() {
-   const requests = await getAllRequestsActiveServerSide().then((res) =>
-      res.json()
-   );
-   return requests.map((request: { id: string }) => ({
-      id: request.id,
-   }));
-}
-
-//and then for each id generate a page (during build task)
 export default async function RequestDetailPage({
    params,
 }: {

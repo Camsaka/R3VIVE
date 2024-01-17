@@ -19,13 +19,6 @@ export async function getAllRequestsActive() {
    });
 }
 
-export async function getAllRequestsActiveServerSide() {
-   const url = process.env.STATIC_URL_REQUESTS + "/api/get-all-requests";
-   return await fetch(url, {
-      method: "GET",
-   });
-}
-
 export async function getRequestById(id: string) {
    const url =
       process.env.STATIC_URL_REQUESTS + `/api/get-requestbyid?id=${id}`;
@@ -45,7 +38,6 @@ const requestCertifMethods = {
    sendCertifRequest,
    getListOfCertif,
    getAllRequestsActive,
-   getAllRequestsActiveServerSide,
    getRequestById,
    validateRequest,
 };
