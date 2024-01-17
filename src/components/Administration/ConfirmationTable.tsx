@@ -17,6 +17,7 @@ export default function ConfirmationTable() {
    useEffect(() => {
       getRequests();
    }, []);
+   console.log("render")
 
    return (
       <>

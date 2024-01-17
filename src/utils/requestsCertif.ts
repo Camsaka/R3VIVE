@@ -16,6 +16,7 @@ export async function getAllRequestsActive() {
    const url = "/api/get-all-requests";
    return await fetch(url, {
       method: "GET",
+      next: { revalidate: 5 }
    });
 }
 
