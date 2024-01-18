@@ -8,7 +8,8 @@
       "start": "next start",
       "lint": "next lint",
       "vercel-build": "prisma generate && next build",
-      "prisma:generate": "prisma generate"
+      "prisma:generate": "prisma generate",
+      "prebuild": "prisma generate"
    },
    "dependencies": {
       "@emotion/react": "^11.11.1",
