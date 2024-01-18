@@ -21,8 +21,7 @@ export async function getAllRequestsActive() {
 
 export async function getRequestById(id: string) {
    const url =
-      process.env.STATIC_URL_REQUESTS +
-      `http://127.0.0.1:3001/api/get-requestbyid?id=${id}`;
+      process.env.STATIC_URL_REQUESTS + `/api/get-requestbyid?id=${id}`;
    return await fetch(url, {
       method: "GET",
    });

@@ -10,7 +10,6 @@ export const revalidate = true
 export async function GET(req: NextRequest) {
    try {
       const requests = await prisma.certifRequest.findMany();
-      console.log(requests)
       return NextResponse.json(requests);
    } catch (err) {
       return NextResponse.json(

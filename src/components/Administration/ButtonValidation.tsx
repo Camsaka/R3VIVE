@@ -8,7 +8,6 @@ async function validateReq(id: string | undefined) {
    try {
       const r = await validateRequest(id);
       const data = await r.json();
-      console.log(data, `La requete d$apos;id ${id} a bien été validée`);
    } catch (error) {
       console.error("Error in validateReq", error);
    }
