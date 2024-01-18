@@ -3,6 +3,7 @@ import { getAllRequestsActive } from "@/utils/requestsCertif";
 import { Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 
+
 export default function ConfirmationTable() {
    const [requests, setRequests] = useState([]);
 
