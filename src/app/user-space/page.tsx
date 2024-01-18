@@ -11,7 +11,7 @@ export default function Certificate() {
       <div className="flex flex-col">
          <AccountInfos />
          <div className="w-1/2 self-center">
-            <ListOfCertificats/>
+            {/* <ListOfCertificats/> */}
             <ListOfRequests />
          </div>
       </div>

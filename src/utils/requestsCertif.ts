@@ -7,9 +7,7 @@ export async function sendCertifRequest(data: FormData) {
 
 export async function getListOfCertif(address: string | undefined) {
    const url = `/api/get-requests?address=${address}`;
-   return await fetch(url, {
-      method: "GET",
-   });
+   return await fetch(url, { next: { revalidate: 3 }, method: "GET" });
 }
 
 export async function getAllRequestsActive() {
@@ -29,6 +27,13 @@ export async function getRequestById(id: string) {
 
 export async function validateRequest(id: string | undefined) {
    const url = `/api/validate-request?id=${id}`;
+   return await fetch(url, {
+      method: "PUT",
+   });
+}
+
+export async function rejectRequest(id: string | undefined) {
+   const url = `/api/reject-request?id=${id}`;
    return await fetch(url, {
       method: "PUT",
    });

@@ -1,9 +1,7 @@
 // /src/admin/request/[id]/page.tsx
-import {
-   getRequestById,
-} from "@/utils/requestsCertif";
+import { getRequestById } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
-import ValidationButton from "@/components/Administration/ButtonValidation";
+import ButtonValidation from "@/components/Administration/ButtonValidation";
 
 export default async function RequestDetailPage({
    params,
@@ -24,8 +22,13 @@ export default async function RequestDetailPage({
          <p>Historique : {request.historic}</p>
          <p>Address du propriétaire : {request.address}</p>
          <p>Date de la requete : {request.dateofcreation}</p>
+         {/* <div className="flex justify-stretch">
+            {images && images.map((image: any, index: any) => (
+               <img key={index} className="mt-5 h-28" src={image} alt="img"></img>
+            ))}
+         </div> */}
          <div className="flex flex-row justify-center space-x-8 mt-10">
-            <ValidationButton identifiant={id} />
+            <ButtonValidation identifiant={id} />
             <Button gradientMonochrome="failure">Rejeter</Button>
          </div>
       </div>

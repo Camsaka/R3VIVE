@@ -1,7 +1,10 @@
 import { type NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import { PrismaClient } from '@prisma/client';
+import prisma from "../../../lib/prisma";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../firebase";
+import { randomUUID } from "crypto";
 
 /* 
 Should move on a backend project
@@ -9,9 +12,8 @@ Describe post methode to send a mail and upload data on vercel postgres storage 
 Accessible from : /api/request-certif.
 */
 
-const prisma = new PrismaClient();
-
 export async function POST(request: NextRequest) {
+   var images: string[] = [];
    const formData = await request.formData();
 
    const files = formData.getAll("files") as File[];
@@ -25,9 +27,19 @@ export async function POST(request: NextRequest) {
    const address = formData.get("address");
 
    if (!files || files.length === 0) {
-      const message = "No pictures linked"
-      return NextResponse.json({message : message}, { status: 400 });
+      const message = "No pictures linked";
+      return NextResponse.json({ message: message }, { status: 400 });
    }
+
+   files.map(async (file: File) => {
+      const imageRef = ref(storage, `imagesR3vive/${file.name + randomUUID()}`);
+      uploadBytes(imageRef, file).then((snapshot) => {
+         getDownloadURL(snapshot.ref).then((url) => {
+            console.log(url);
+            images.push(url);
+         });
+      });
+   });
 
    const attachmentsPromises = files.map(async (file: File) => {
       const buffer = await file.arrayBuffer();
@@ -62,7 +74,7 @@ export async function POST(request: NextRequest) {
    <p>Images pour authenticité en PJ</p>
    `;
 
-   const mailOptions : Mail.Options = {
+   const mailOptions: Mail.Options = {
       from: `${name} <${email}>`,
       to: process.env.NODEMAILER_EMAIL,
       // cc: email, (uncomment this line if you want to send a copy to the sender)
@@ -76,27 +88,22 @@ export async function POST(request: NextRequest) {
       const newCertif = await prisma.certifRequest.create({
          data: {
             email: email?.toString() || "",
-            name : name?.toString() || "",
+            name: name?.toString() || "",
             brand: brand?.toString() || "",
             year: year?.toString() || "",
             serialn: serialN?.toString() || "",
             description: description?.toString() || "",
-            historic: historic?.toString() || "",    
+            historic: historic?.toString() || "",
             address: address?.toString() || "",
+            images: images,
          },
-       });
-      
-      //prisma request
-      const certifRequests = await prisma.certifRequest.findMany();
-      return NextResponse.json({
-         files: files.map((file: File) => ({
-            name: file.name,
-            size: file.size,
-            lastModified: new Date(file.lastModified),
-         })),
       });
-   } catch (err : any) {
-      const message = "Erreur lors de l'envoi du mail de requete certif."
-      return NextResponse.json({message, error: err.message }, { status: 500 });
+      return NextResponse.json(newCertif);
+   } catch (err: any) {
+      const message = "Erreur lors de l'envoi du mail de requete certif.";
+      return NextResponse.json(
+         { message, error: err.message },
+         { status: 500 }
+      );
    }
 }

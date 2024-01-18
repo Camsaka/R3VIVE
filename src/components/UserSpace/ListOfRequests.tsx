@@ -7,6 +7,7 @@ import { useAccountContext } from "@/app/context/AccountContext";
 import { useEffect, useState } from "react";
 import { getListOfCertif } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
+import StatusOfRequest from "./StatusOfRequest";
 
 function ListOfRequests() {
    const accountContext = useAccountContext();
@@ -15,7 +16,9 @@ function ListOfRequests() {
    const getRequests = () => {
       getListOfCertif(accountContext.address)
          .then((response) => response.json())
-         .then((data) => setRequests(data));
+         .then((data) => {
+            setRequests(data);
+         });
    };
 
    useEffect(() => {
@@ -33,13 +36,18 @@ function ListOfRequests() {
          )}
          {requests.length > 0 && (
             <>
-               <a className="underline decoration-sky-500 mb-14 text-xl">Mes certificats : </a>
+               <a className="underline decoration-sky-500 mb-14 text-xl">
+                  Mes certificats :{" "}
+               </a>
                <Accordion collapseAll className="my-5">
                   {requests.map((value: any, index) => (
                      <Accordion.Panel key={index}>
                         <Accordion.Title className="">
                            {value.name}
-                           {value.brand}
+                           <StatusOfRequest
+                              mintable={value.mintable}
+                              rejected={value.rejected}
+                           />
                         </Accordion.Title>
                         <Accordion.Content>
                            <h1 className="mb-2">{value.brand}</h1>
@@ -48,6 +56,16 @@ function ListOfRequests() {
                            <p>{value.description}</p>
                            <p>{value.historic}</p>
                            <p>{value.serialN}</p>
+                           <div className="flex justify-stretch">
+                              {value.images.map((image: any, index: any) => (
+                                 <img
+                                    key={index}
+                                    className="mt-5 h-28"
+                                    src={image}
+                                    alt="img"
+                                 ></img>
+                              ))}
+                           </div>
                            <Button
                               className="px-10 flex flex-col mt-5 justify-self-end"
                               gradientMonochrome="cyan"

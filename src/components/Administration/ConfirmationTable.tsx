@@ -3,7 +3,6 @@ import { getAllRequestsActive } from "@/utils/requestsCertif";
 import { Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 
-
 export default function ConfirmationTable() {
    const [requests, setRequests] = useState([]);
 
@@ -50,14 +49,21 @@ export default function ConfirmationTable() {
                            </Table.Cell>
                            <Table.Cell>{value.name}</Table.Cell>
                            <Table.Cell>{value.brand}</Table.Cell>
-                           <Table.Cell>
-                              <a
-                                 href={`admin/request/${value.id}`}
-                                 className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                              >
-                                 Edit
-                              </a>
-                           </Table.Cell>
+                           {!value.mintable && (
+                              <Table.Cell>
+                                 <a
+                                    href={`admin/request/${value.id}`}
+                                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                                 >
+                                    Edit
+                                 </a>
+                              </Table.Cell>
+                           )}
+                           {value.mintable && (
+                              <Table.Cell>
+                                 <p className="text-green-600">VALIDATED</p>
+                              </Table.Cell>
+                           )}
                         </Table.Row>
                      ))}
                   </Table.Body>
