@@ -6,16 +6,12 @@ import { useEffect, useState } from "react";
 export default function ConfirmationTable() {
    const [requests, setRequests] = useState([]);
 
-   const getRequests = () => {
+   useEffect(() => {
       getAllRequestsActive()
          .then((response) => response.json())
          .then((data) => {
             setRequests(data);
          });
-   };
-
-   useEffect(() => {
-      getRequests();
    }, []);
 
    return (
@@ -33,7 +29,9 @@ export default function ConfirmationTable() {
                </a>
                <Table striped hoverable>
                   <Table.Head>
-                     <Table.HeadCell className="dark:bg-gray-900">Address</Table.HeadCell>
+                     <Table.HeadCell className="dark:bg-gray-900">
+                        Address
+                     </Table.HeadCell>
                      <Table.HeadCell>Name</Table.HeadCell>
                      <Table.HeadCell>Marque</Table.HeadCell>
                      <Table.HeadCell>
@@ -42,7 +40,10 @@ export default function ConfirmationTable() {
                   </Table.Head>
                   <Table.Body className="divide-y">
                      {requests.map((value: any, index) => (
-                        <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                        <Table.Row
+                           key={index}
+                           className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                        >
                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                               {value.address}
                            </Table.Cell>
