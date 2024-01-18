@@ -15,8 +15,6 @@ export async function getListOfCertif(address: string | undefined) {
 export async function getAllRequestsActive() {
    const url = "/api/get-all-requests";
    return await fetch(url, {
-      cache: "no-store",
-      next: { revalidate: 10 },
       method: "GET",
    });
 }
