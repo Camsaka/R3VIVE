@@ -25,12 +25,6 @@ function ListOfCertificats() {
 
    return (
       <>
-         {requests.length == 0 && (
-            <h1 className="text-center text-2xl">
-               {" "}
-               Vous n&apos;avez passé aucune requete{" "}
-            </h1>
-         )}
          {requests.length > 0 && (
             <>
                <a className="underline decoration-sky-500 mb-14 text-xl">Mes requetes : </a>

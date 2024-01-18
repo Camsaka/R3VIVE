@@ -18,6 +18,7 @@ function ListOfRequests() {
          .then((response) => response.json())
          .then((data) => {
             setRequests(data);
+
          });
    };
 
@@ -28,12 +29,6 @@ function ListOfRequests() {
 
    return (
       <>
-         {requests.length == 0 && (
-            <h1 className="text-center text-2xl">
-               {" "}
-               Vous n&apos;avez passé aucune requete{" "}
-            </h1>
-         )}
          {requests.length > 0 && (
             <>
                <a className="underline decoration-sky-500 mb-14 text-xl">
@@ -56,15 +51,16 @@ function ListOfRequests() {
                            <p>{value.description}</p>
                            <p>{value.historic}</p>
                            <p>{value.serialN}</p>
-                           <div className="flex justify-stretch">
-                              {value.images.map((image: any, index: any) => (
+                           <div  className="flex justify-stretch">
+                           {value.images.map((image: any, index : any) => (
+
                                  <img
-                                    key={index}
+                                 key={index}
                                     className="mt-5 h-28"
                                     src={image}
                                     alt="img"
                                  ></img>
-                              ))}
+                           ))}
                            </div>
                            <Button
                               className="px-10 flex flex-col mt-5 justify-self-end"

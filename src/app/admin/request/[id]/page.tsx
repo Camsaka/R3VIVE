@@ -10,6 +10,7 @@ export default async function RequestDetailPage({
 }) {
    const id = params.id;
    const request = await getRequestById(id).then((res) => res.json());
+   const images = request.images
    return (
       <div>
          <p>ID : {id}</p>
@@ -22,11 +23,11 @@ export default async function RequestDetailPage({
          <p>Historique : {request.historic}</p>
          <p>Address du propriétaire : {request.address}</p>
          <p>Date de la requete : {request.dateofcreation}</p>
-         {/* <div className="flex justify-stretch">
+         <div className="flex justify-stretch">
             {images && images.map((image: any, index: any) => (
                <img key={index} className="mt-5 h-28" src={image} alt="img"></img>
             ))}
-         </div> */}
+         </div>
          <div className="flex flex-row justify-center space-x-8 mt-10">
             <ButtonValidation identifiant={id} />
             <Button gradientMonochrome="failure">Rejeter</Button>
