@@ -11,10 +11,11 @@ export async function uploadMetadata(
    urlPicture: FormData,
 ) {
    const url = `/api/uploadtoipfs/metadata?id=${id}`;
-   await fetch(url, {
+   const metadataURL = await fetch(url, {
       method: "POST",
       body : urlPicture
    });
+   return metadataURL.json();
 }
 
 const requestIPFSMethods = {

@@ -7,7 +7,7 @@ import abi from "@/data/abiCertif.json";
 
 const addressContract = process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA;
 
-export async function addTokenId() {
+export async function mintNFT(metadataURL : string) {
    const { request } = await prepareWriteContract({
       address: `0x${addressContract}`,
       abi: abi,
@@ -24,10 +24,8 @@ export async function addTokenId() {
    return { data };
 }
 
-export function confirmedTokenId(address: string, tokenid: string){}
-
 const smartcontractsfunctions = {
-   addTokenId, confirmedTokenId 
+   mintNFT
  }
 
 

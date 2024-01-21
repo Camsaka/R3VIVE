@@ -1,4 +1,3 @@
-"use client"
 import React from "react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { sepolia, localhost } from "wagmi/chains";
@@ -16,16 +15,21 @@ Wagmi provider for web3modal and blockchain node provider
 
 
 const projectId = process.env.NEXT_PUBLIC_W3C_PID;
+const apiKey = process.env.NEXT_PUBLIC_INFURA_API_KEY;
 
 if (!projectId) {
    throw new Error("NEXT_PUBLIC_W3C_PID is not defined.");
+}
+
+if (!apiKey) {
+   throw new Error(" NEXT_PUBLIC_INFURA_API_KEY is not defined.");
 }
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
    [sepolia],
    [
       // publicProvider(),
-      infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY || "" }),
+      infuraProvider({ apiKey: apiKey }),
    ]
 );
 

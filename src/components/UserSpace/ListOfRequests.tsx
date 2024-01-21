@@ -10,6 +10,7 @@ import { getListOfCertif } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
 import StatusOfRequest from "./StatusOfRequest";
 import { uploadMetadata, uploadPictureToIPFS } from "@/utils/IPFS";
+import { mintNFT } from "@/utils/SmartContract";
 
 async function mintNft(request: any) {
    const pictureURL = await uploadPictureToIPFS(request.id);
@@ -17,6 +18,9 @@ async function mintNft(request: any) {
    const pictureFormatUrl: FormData = new FormData();
    pictureFormatUrl.append("pictureURL", pictureURL.IPFSUrl);
    const nftURI = await uploadMetadata(request.id, pictureFormatUrl);
+   console.log(nftURI);
+   const mintedData = await mintNFT(nftURI.IPFSUrl);
+   console.log(mintedData);
 }
 
 function ListOfRequests() {
