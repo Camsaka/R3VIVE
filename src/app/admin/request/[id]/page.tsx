@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 // /src/admin/request/[id]/page.tsx
 import { getAllRequestsActiveServerSide, getRequestById } from "@/utils/requestsCertif";
-import { Button } from "flowbite-react";
 import ButtonValidation from "@/components/Administration/ButtonValidation";
 import ButtonRejection from "@/components/Administration/ButtonRejection";
 
