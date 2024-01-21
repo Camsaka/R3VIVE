@@ -39,6 +39,8 @@ export async function rejectRequest(id: string | undefined) {
    });
 }
 
+
+
 const requestCertifMethods = {
    sendCertifRequest,
    getListOfCertif,

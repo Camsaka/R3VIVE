@@ -1,6 +1,6 @@
 // Fetch all posts (in /pages/api/posts.ts)
 import { NextResponse } from "next/server";
-import prisma from "../../../lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function GET(req: Request) {
    const { searchParams } = new URL(req.url);

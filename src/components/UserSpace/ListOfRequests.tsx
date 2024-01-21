@@ -8,6 +8,15 @@ import { useEffect, useState } from "react";
 import { getListOfCertif } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
 import StatusOfRequest from "./StatusOfRequest";
+import { uploadMetadata, uploadPictureToIPFS } from "@/utils/IPFS";
+
+async function mintNft(request: any) {
+   const pictureURL = await uploadPictureToIPFS(request.id);
+   console.log("PictureUrl:", pictureURL);
+   const pictureFormatUrl: FormData = new FormData();
+   pictureFormatUrl.append("pictureURL", pictureURL.IPFSUrl);
+   const nftURI = await uploadMetadata(request.id, pictureFormatUrl);
+}
 
 function ListOfRequests() {
    const accountContext = useAccountContext();
@@ -18,7 +27,6 @@ function ListOfRequests() {
          .then((response) => response.json())
          .then((data) => {
             setRequests(data);
-
          });
    };
 
@@ -51,21 +59,20 @@ function ListOfRequests() {
                            <p>{value.description}</p>
                            <p>{value.historic}</p>
                            <p>{value.serialN}</p>
-                           <div  className="flex justify-stretch">
-                           {value.images.map((image: any, index : any) => (
-
+                           <div className="flex justify-stretch">
+                              {value.images.map((image: any, index: any) => (
                                  <img
-                                 key={index}
+                                    key={index}
                                     className="mt-5 h-28"
                                     src={image}
                                     alt="img"
                                  ></img>
-                           ))}
+                              ))}
                            </div>
                            <Button
                               className="px-10 flex flex-col mt-5 justify-self-end"
                               gradientMonochrome="cyan"
-                              onClick={() => {}}
+                              onClick={() => mintNft(value)}
                               disabled={!value.mintable}
                            >
                               Mint

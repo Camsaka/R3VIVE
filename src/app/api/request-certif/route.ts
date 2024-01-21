@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import prisma from "../../../lib/prisma";
+import prisma from "@/lib/prisma";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../../firebase";
+import { storage } from "@/lib/firebase";
 import { randomUUID } from "crypto";
 
 /* 
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
    }
 
    files.map(async (file: File) => {
-      const imageRef = ref(storage, `imagesR3vive/${file.name + randomUUID()}`);
+      const imageRef = ref(storage, `imagesR3vive/${randomUUID()}${file.name}`);
       uploadBytes(imageRef, file).then((snapshot) => {
          getDownloadURL(snapshot.ref).then((url) => {
             console.log(url);

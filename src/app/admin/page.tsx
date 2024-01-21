@@ -23,6 +23,9 @@ export default function AdminPage() {
 
    return (
       <>
+         <h1 className="underline decoration-sky-500 mb-14 text-xl ">
+            Requetes :{" "}
+         </h1>
          <div className="flex flex-row w-screen full-height mt-2">
             <AdminSideBar />
             <div className="flex justify-self-center ml-44 mt-10 space-y-6">

@@ -1,21 +1,23 @@
-import { FormDataR3Validation } from "@/types/types";
-import { NextApiRequest, NextApiResponse } from 'next';
-
-
-export async function uploadPicture(pictureToUpload : File | null){
-   if(pictureToUpload != null){
-      
-   }
-   //upload picture and get his hash
+export async function uploadPictureToIPFS(id: string | undefined) {
+   const url = `/api/uploadtoipfs/picture?id=${id}`;
+   const pictureURL = await fetch(url, {
+      method: "POST",
+   });
+   return await pictureURL.json();
 }
 
-export async function uploadMetadata(dataToUpload: FormDataR3Validation){
-
-   //set image url(ipfs), upload metadata and get his hash
+export async function uploadMetadata(
+   id : string,
+   urlPicture: FormData,
+) {
+   const url = `/api/uploadtoipfs/metadata?id=${id}`;
+   await fetch(url, {
+      method: "POST",
+      body : urlPicture
+   });
 }
 
-const uploadIPFSMethod = {
-   uploadPicture, uploadMetadata
-}
-
-export default uploadIPFSMethod;
+const requestIPFSMethods = {
+   uploadPictureToIPFS,
+   uploadMetadata
+};

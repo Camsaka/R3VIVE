@@ -24,9 +24,6 @@ export default function ConfirmationTable() {
          )}
          {requests.length > 0 && (
             <div className="overflow-x-auto space-y-4">
-               <a className="underline decoration-sky-500 mb-14 text-xl ">
-                  Requetes :{" "}
-               </a>
                <Table striped hoverable>
                   <Table.Head>
                      <Table.HeadCell className="dark:bg-gray-900">
