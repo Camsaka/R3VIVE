@@ -6,7 +6,7 @@ List of requests of the user with status and possibility to mint if accepted
 import { Accordion } from "flowbite-react";
 import { useAccountContext } from "@/app/context/AccountContext";
 import { useEffect, useState } from "react";
-import { getListOfCertif } from "@/utils/requestsCertif";
+import { getListOfRequests } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
 import StatusOfRequest from "./StatusOfRequest";
 import { uploadMetadata, uploadPictureToIPFS } from "@/utils/IPFS";
@@ -28,7 +28,7 @@ function ListOfRequests() {
    const [requests, setRequests] = useState([]);
 
    const getRequests = () => {
-      getListOfCertif(accountContext.address)
+      getListOfRequests(accountContext.address)
          .then((response) => response.json())
          .then((data) => {
             setRequests(data);

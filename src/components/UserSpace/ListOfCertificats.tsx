@@ -39,6 +39,10 @@ function ListOfCertificats() {
       },
    });
 
+   useEffect(() => {
+      setCertifs([]);
+   }, [accountContext])
+
    return (
       <div className="grid grid-cols-3 gap-20 self-center w-11/12 border-solid border-2 border-slate-700 py-20 px-10 rounded-lg">
          {certifs.map((value: any, index) => (

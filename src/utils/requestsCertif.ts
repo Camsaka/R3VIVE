@@ -5,7 +5,7 @@ export async function sendCertifRequest(data: FormData) {
    });
 }
 
-export async function getListOfCertif(address: string | undefined) {
+export async function getListOfRequests(address: string | undefined) {
    const url = `/api/get-requests?address=${address}`;
    return await fetch(url, { next: { revalidate: 3 }, method: "GET" });
 }
@@ -50,7 +50,7 @@ export async function getAllRequestsActiveServerSide() {
 
 const requestCertifMethods = {
    sendCertifRequest,
-   getListOfCertif,
+   getListOfRequests,
    getAllRequestsActive,
    getRequestById,
    validateRequest,

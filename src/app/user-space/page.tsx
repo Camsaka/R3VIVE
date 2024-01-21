@@ -1,6 +1,7 @@
 import AccountInfos from "@/components/Web3/AccountInfos";
 import ListOfRequests from "@/components/UserSpace/ListOfRequests";
 import ListOfCertificats from "@/components/UserSpace/ListOfCertificats";
+import { useEffect } from "react";
 
 /* 
 Request certif page.
