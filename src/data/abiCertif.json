@@ -60,7 +60,6 @@
       "type": "error"
    },
    { "inputs": [], "name": "NotGoodPrice", "type": "error" },
-   { "inputs": [], "name": "NotMintable", "type": "error" },
    { "inputs": [], "name": "NotYourRequest", "type": "error" },
    {
       "inputs": [
@@ -210,12 +209,6 @@
             "internalType": "uint256",
             "name": "tokenid",
             "type": "uint256"
-         },
-         {
-            "indexed": false,
-            "internalType": "bool",
-            "name": "status",
-            "type": "bool"
          }
       ],
       "name": "TokenAdd",
@@ -248,13 +241,6 @@
    },
    { "stateMutability": "payable", "type": "fallback" },
    {
-      "inputs": [],
-      "name": "addTokenInConfirmationList",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
       "inputs": [
          { "internalType": "address", "name": "to", "type": "address" },
          { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
@@ -271,16 +257,6 @@
       "name": "balanceOf",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
-      "type": "function"
-   },
-   {
-      "inputs": [
-         { "internalType": "uint256", "name": "_id", "type": "uint256" },
-         { "internalType": "address", "name": "_owner", "type": "address" }
-      ],
-      "name": "confirmedMintablility",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
    },
    {
@@ -323,15 +299,6 @@
    },
    {
       "inputs": [
-         { "internalType": "uint256", "name": "_id", "type": "uint256" }
-      ],
-      "name": "getIsMintable",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-      "stateMutability": "view",
-      "type": "function"
-   },
-   {
-      "inputs": [
          { "internalType": "address", "name": "owner", "type": "address" },
          { "internalType": "address", "name": "operator", "type": "address" }
       ],
@@ -343,8 +310,7 @@
    {
       "inputs": [
          { "internalType": "address", "name": "_to", "type": "address" },
-         { "internalType": "string", "name": "_uri", "type": "string" },
-         { "internalType": "uint256", "name": "_id", "type": "uint256" }
+         { "internalType": "string", "name": "_uri", "type": "string" }
       ],
       "name": "mint",
       "outputs": [],

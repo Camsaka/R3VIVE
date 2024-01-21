@@ -12,14 +12,14 @@ import StatusOfRequest from "./StatusOfRequest";
 import { uploadMetadata, uploadPictureToIPFS } from "@/utils/IPFS";
 import { mintNFT } from "@/utils/SmartContract";
 
-async function mintNft(request: any) {
+async function mintNft(request: any, address: `0x${string}`) {
    const pictureURL = await uploadPictureToIPFS(request.id);
    console.log("PictureUrl:", pictureURL);
    const pictureFormatUrl: FormData = new FormData();
    pictureFormatUrl.append("pictureURL", pictureURL.IPFSUrl);
    const nftURI = await uploadMetadata(request.id, pictureFormatUrl);
    console.log(nftURI);
-   const mintedData = await mintNFT(nftURI.IPFSUrl);
+   const mintedData = await mintNFT(nftURI.IPFSUrl, address);
    console.log(mintedData);
 }
 
@@ -41,12 +41,9 @@ function ListOfRequests() {
    }, [accountContext]);
 
    return (
-      <>
+      <div className="self-center w-11/12 border-solid border-2 border-slate-700 py-20 px-24 rounded-lg">
          {requests.length > 0 && (
             <>
-               <a className="underline decoration-sky-500 mb-14 text-xl">
-                  Mes requetes :{" "}
-               </a>
                <Accordion collapseAll className="my-5">
                   {requests.map((value: any, index) => (
                      <Accordion.Panel key={index}>
@@ -77,7 +74,11 @@ function ListOfRequests() {
                            <Button
                               className="px-10 flex flex-col mt-5 justify-self-end"
                               gradientMonochrome="cyan"
-                              onClick={() => mintNft(value)}
+                              onClick={() => {
+                                 if (accountContext.address) {
+                                    mintNft(value, accountContext.address);
+                                 }
+                              }}
                               disabled={!value.mintable}
                            >
                               Mint
@@ -88,7 +89,7 @@ function ListOfRequests() {
                </Accordion>
             </>
          )}
-      </>
+      </div>
    );
 }
 export default ListOfRequests;

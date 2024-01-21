@@ -10,10 +10,10 @@ export default function Certificate() {
    return (
       <div className="flex flex-col">
          <AccountInfos />
-         <div className="w-1/2 self-center">
-            {/* <ListOfCertificats/> */}
-            <ListOfRequests />
-         </div>
+         <p className=" mb-12 text-2xl text-center">Mes certificats</p>
+         <ListOfCertificats />
+         <p className=" my-12 text-2xl text-center">Mes requetes</p>
+         <ListOfRequests />
       </div>
    );
 }
