@@ -39,6 +39,13 @@ export async function rejectRequest(id: string | undefined) {
    });
 }
 
+export async function getAllRequestsActiveServerSide() {
+   const url = process.env.STATIC_URL_REQUESTS + "/api/get-all-requests";
+   return await fetch(url, {
+      method: "GET",
+   });
+}
+
 
 
 const requestCertifMethods = {
@@ -47,6 +54,7 @@ const requestCertifMethods = {
    getAllRequestsActive,
    getRequestById,
    validateRequest,
+   getAllRequestsActiveServerSide
 };
 
 export default requestCertifMethods;

@@ -13,30 +13,39 @@ export async function POST(req: NextRequest) {
             process.env.STATIC_URL_REQUESTS + `/api/get-requestbyid?id=${id}`
          )
       ).json();
-      //recupérer la première url d'image
-      const urlPicture = request.images[0];
+      if (request.mintable) {
+         //recupérer la première url d'image
+         const urlPicture = request.images[0];
 
-      // First, instantiate the thirdweb IPFS storage
-      const storageThirdWeb = new ThirdwebStorage({
-         secretKey: process.env.THIRDWEB_API_KEY, // You can get one from dashboard settings
-      });
-      const response = await fetch(urlPicture);
-      const imageBuffer = await response.arrayBuffer();
+         // First, instantiate the thirdweb IPFS storage
+         const storageThirdWeb = new ThirdwebStorage({
+            secretKey: process.env.THIRDWEB_API_KEY, // You can get one from dashboard settings
+         });
+         const response = await fetch(urlPicture);
+         const imageBuffer = await response.arrayBuffer();
 
-      // // Upload the blob to IPFS
-      const uri = await storageThirdWeb.upload(Buffer.from(imageBuffer));
+         // // Upload the blob to IPFS
+         const uri = await storageThirdWeb.upload(Buffer.from(imageBuffer));
 
-      // // // Resolve the IPFS URI with a gateway
-      const IPFSUrl = await storageThirdWeb.resolveScheme(uri);
+         // // // Resolve the IPFS URI with a gateway
+         const IPFSUrl = await storageThirdWeb.resolveScheme(uri);
 
-      // // Download data from the IPFS URI
-      // const dataIPFS = await storageThirdWeb.downloadJSON(uri);
+         // // Download data from the IPFS URI
+         // const dataIPFS = await storageThirdWeb.downloadJSON(uri);
 
-      return NextResponse.json({
-         message: "Upload the picture done on ipfs",
-         IPFSUrl,
-      });
-      
+         return NextResponse.json({
+            message: "Upload the picture done on ipfs",
+            IPFSUrl,
+         });
+      } else {
+         return NextResponse.json(
+            {
+               message:
+                  "Vous n'êtes pas autorisé à minter votre NFT. La requete à soit été rejetée soit est toujours en cours de traitement.",
+            },
+            { status: 401 }
+         );
+      }
    } catch (err) {
       // Handle errors, e.g., log them or throw a more specific error
       console.error("Error during upload picture on ipfs :", err);

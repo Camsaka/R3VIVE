@@ -1,7 +1,21 @@
 // /src/admin/request/[id]/page.tsx
-import { getRequestById } from "@/utils/requestsCertif";
+import { getAllRequestsActiveServerSide, getRequestById } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
 import ButtonValidation from "@/components/Administration/ButtonValidation";
+
+
+//(default): Dynamic segments not included in generateStaticParams are generated on demand.
+export const dynamicParams = true
+
+//generate static parameters "id" for each request loaded
+export async function generateStaticParams() {
+   const requests = await getAllRequestsActiveServerSide().then((res) =>
+      res.json()
+   );
+   return requests.map((request: { id: string }) => ({
+      id: request.id,
+   }));
+}
 
 export default async function RequestDetailPage({
    params,
