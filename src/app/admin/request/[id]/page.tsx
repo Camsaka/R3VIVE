@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 // /src/admin/request/[id]/page.tsx
 import { getAllRequestsActiveServerSide, getRequestById } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
 import ButtonValidation from "@/components/Administration/ButtonValidation";
+import ButtonRejection from "@/components/Administration/ButtonRejection";
 
 
 //(default): Dynamic segments not included in generateStaticParams are generated on demand.
@@ -26,7 +28,7 @@ export default async function RequestDetailPage({
    const request = await getRequestById(id).then((res) => res.json());
    const images = request.images
    return (
-      <div>
+      <div className="m-10">
          <p>ID : {id}</p>
          <p>Email : {request.email}</p>
          <p>Name : {request.name}</p>
@@ -44,7 +46,7 @@ export default async function RequestDetailPage({
          </div>
          <div className="flex flex-row justify-center space-x-8 mt-10">
             <ButtonValidation identifiant={id} />
-            <Button gradientMonochrome="failure">Rejeter</Button>
+            <ButtonRejection identifiant={id}/>
          </div>
       </div>
    );

@@ -13,7 +13,7 @@ async function rejectReq(id: string | undefined) {
       console.error("Error in validateReq", error);
    }
 }
-function ButtonValidation(props: { identifiant: string }) {
+function ButtonRejection(props: { identifiant: string }) {
    const router = useRouter();
    return (
       <Button
@@ -23,9 +23,9 @@ function ButtonValidation(props: { identifiant: string }) {
             router.push("/admin");
          }}
       >
-         Accepter
+         Rejeter
       </Button>
    );
 }
 
-export default ButtonValidation;
+export default ButtonRejection;

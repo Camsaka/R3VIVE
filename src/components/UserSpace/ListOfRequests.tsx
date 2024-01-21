@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /*
 List of requests of the user with status and possibility to mint if accepted
 */
@@ -40,7 +41,7 @@ function ListOfRequests() {
          {requests.length > 0 && (
             <>
                <a className="underline decoration-sky-500 mb-14 text-xl">
-                  Mes certificats :{" "}
+                  Mes requetes :{" "}
                </a>
                <Accordion collapseAll className="my-5">
                   {requests.map((value: any, index) => (
