@@ -1,9 +1,7 @@
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
-import { File } from "buffer";
-import { randomUUID } from "crypto";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
    try {
       //recupérer l'url et le body
       const { searchParams } = new URL(req.url);
@@ -38,9 +36,9 @@ export async function POST(req: Request) {
          message: "Upload the metadata done on ipfs",
       });
       
-   } catch (error) {
+   } catch (err) {
       // Handle errors, e.g., log them or throw a more specific error
-      console.error("Error upload picture on ipfs |error| :", error);
-      throw error;
+      console.error("Error upload picture on ipfs |error| :", err);
+      throw err;
    }
 }

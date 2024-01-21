@@ -16,6 +16,6 @@ export async function GET(
       );
       return NextResponse.json(request);
    } catch (err) {
-      return NextResponse.json({ err: "Error occured." + err }, {status : 500});
+      return NextResponse.json({ message: "Error occured during get request by id", err }, {status : 500});
    }
 }

@@ -99,10 +99,10 @@ export async function POST(request: NextRequest) {
          },
       });
       return NextResponse.json(newCertif);
-   } catch (err: any) {
+   } catch (err) {
       const message = "Erreur lors de l'envoi du mail de requete certif.";
       return NextResponse.json(
-         { message, error: err.message },
+         { message, error: err },
          { status: 500 }
       );
    }

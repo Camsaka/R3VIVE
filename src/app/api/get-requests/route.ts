@@ -1,8 +1,8 @@
 // Fetch all posts (in /pages/api/posts.ts)
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
    const { searchParams } = new URL(req.url);
    const address = searchParams.get("address") as string;
    try {
@@ -14,7 +14,7 @@ export async function GET(req: Request) {
       return NextResponse.json(requests);
    } catch (err) {
       return NextResponse.json(
-         { err: "Error occured." + err },
+         { message: "Error occured during get all requests for an address", err },
          { status: 500 }
       );
    }
