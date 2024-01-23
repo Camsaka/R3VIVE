@@ -32,11 +32,9 @@ export async function mintNFT(metadataURL: string, address: string) {
    });
    const data = await waitForTransaction({
       hash,
-   }).then(async (res) => {
-
-      return res;
    });
-   return { data };
+
+   return hash;
 }
 
 export async function getNFTMetadata(id: Number) {

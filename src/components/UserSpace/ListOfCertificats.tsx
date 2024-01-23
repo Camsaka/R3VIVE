@@ -55,7 +55,7 @@ function ListOfCertificats() {
 
    return (
       <div className="grid grid-cols-3 gap-20 self-center w-11/12 border-solid border-2 border-slate-700 py-20 px-10 rounded-lg">
-         {certifs.map((value: any, index) => (
+         {certifs.length > 0 ? ( certifs.map((value: any, index) => (
             <div
                key={index}
                className="rounded-lg border-solid border border-black dark:border-slate-50 space-y-4 p-4 dark:bg-neutral-950 h-auto"
@@ -116,7 +116,7 @@ function ListOfCertificats() {
                   </Button>
                </div>
             </div>
-         ))}
+         ))) : (<p>Vous ne possédez aucun certificat.</p>)}
       </div>
    );
 }

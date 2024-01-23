@@ -11,9 +11,10 @@ import { Button } from "flowbite-react";
 import StatusOfRequest from "./StatusOfRequest";
 import { uploadMetadata, uploadPictureToIPFS } from "@/utils/IPFS";
 import { mintNFT } from "@/utils/SmartContract";
+import MintingModal from "@/components/UserSpace/MintingModal";
+import LoadingSpinner from "../Animations/LoadingSpinner";
 
 async function mintNft(request: any, address: `0x${string}`) {
-
    //upload picture on IPFS
    const pictureURL = await uploadPictureToIPFS(request.id);
 
@@ -32,11 +33,15 @@ async function mintNft(request: any, address: `0x${string}`) {
       method: "DELETE",
    });
    console.log(deletedRequest);
+   return mintedData;
 }
 
 function ListOfRequests() {
    const accountContext = useAccountContext();
    const [requests, setRequests] = useState([]);
+   const [mintStatus, setMintStatus] = useState("");
+   const [openModal, setOpenModal] = useState(false);
+   const [isDisableButton, setIsDisableButton] = useState(false);
 
    const getRequests = () => {
       getListOfRequests(accountContext.address)
@@ -85,21 +90,41 @@ function ListOfRequests() {
                            <Button
                               className="px-10 flex flex-col mt-5 justify-self-end"
                               gradientMonochrome="cyan"
-                              onClick={() => {
+                              onClick={async () => {
+                                 setIsDisableButton(true);
                                  if (accountContext.address) {
-                                    mintNft(value, accountContext.address);
+                                    const data = await mintNft(
+                                       value,
+                                       accountContext.address
+                                    );
+                                    setMintStatus(data);
+                                    setOpenModal(true);
                                  }
                               }}
-                              disabled={!value.mintable}
+                              disabled={!value.mintable || isDisableButton}
                            >
-                              Mint
+                              {isDisableButton ? (
+                                 <>
+                                    <LoadingSpinner></LoadingSpinner>
+                                    <p className="ml-2">Minting...</p>
+                                 </>
+                              ) : (
+                                 "Mint"
+                              )}
                            </Button>
                         </Accordion.Content>
                      </Accordion.Panel>
                   ))}
                </Accordion>
+               <MintingModal
+                  openModal={openModal}
+                  setOpenModal={setOpenModal}
+                  modalData={mintStatus}
+               ></MintingModal>
             </>
-         ) : (<p>Vous n'avez pas de requêtes en cours.</p>)}
+         ) : (
+            <p>Vous n'avez pas de requêtes en cours.</p>
+         )}
       </div>
    );
 }
