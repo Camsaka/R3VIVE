@@ -13,6 +13,16 @@ import { useRouter } from "next/navigation";
 
 function ListOfCertificats() {
    const router = useRouter();
+   const [showMore, setShowMore] = useState<any[]>([]);
+
+   const toggleShowMore = (index: number) => {
+      setShowMore((prev) => {
+         const updatedShowMore = [...prev];
+         updatedShowMore[index] = !updatedShowMore[index];
+         return updatedShowMore;
+      });
+   };
+
    const addressContract =
       process.env.NEXT_PUBLIC_CERTIF_CONTRACT_ADDRESS_SEPOLIA;
    const accountContext = useAccountContext();
@@ -41,7 +51,7 @@ function ListOfCertificats() {
 
    useEffect(() => {
       setCertifs([]);
-   }, [accountContext])
+   }, [accountContext]);
 
    return (
       <div className="grid grid-cols-3 gap-20 self-center w-11/12 border-solid border-2 border-slate-700 py-20 px-10 rounded-lg">
@@ -66,9 +76,24 @@ function ListOfCertificats() {
                   {value.metadata.attributes[2].trait_type} :{" "}
                   {value.metadata.attributes[2].value}
                </p>
-               <p>
-                  {value.metadata.attributes[3].trait_type} :{" "}
-                  {value.metadata.attributes[3].value}
+               <p key={index}>
+                  {showMore[index]
+                     ? `${value.metadata.attributes[3].trait_type} : ${value.metadata.attributes[3].value}`
+                     : `${value.metadata.attributes[3].trait_type} : ${value.metadata.attributes[3].value}`.slice(
+                          0,
+                          400
+                       )}
+                  <br></br>
+                  <span
+                     onClick={() => toggleShowMore(index)}
+                     className="text-blue-500 cursor-pointer"
+                  >
+                     {value.metadata.attributes[3].value.length > 400
+                        ? showMore[index]
+                           ? "Moins..."
+                           : "Plus..."
+                        : ""}
+                  </span>
                </p>
                <p>
                   {value.metadata.attributes[4].trait_type} :{" "}
@@ -79,12 +104,12 @@ function ListOfCertificats() {
                   src={value.httpUrl}
                   alt={value.metadata.image}
                ></img>
-               <div className="mt-4 grid grid-cols-2 items-center">
+               <div className="grid grid-cols-2 items-center p-3">
                   <a
                      className="underline hover:no-underline"
                      href={`https://testnets.opensea.io/fr/assets/sepolia/0xb9f61eebd96ddad25bd4529f4ef65ac9f49d69a7/${value.id}`}
                   >
-                     Lien vers opensea
+                     Voir sur opensea
                   </a>
                   <Button gradientDuoTone="tealToLime" className="bg-teal-900">
                      Transferer

@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.limited-paragraph {
+   --max-lines: 10;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: var(--max-lines);
+ }
+
+ .show-more-button {
+   cursor: pointer; /* Couleur du lien "Lire la suite" */
+ }

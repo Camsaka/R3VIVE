@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-const inter = Inter({ subsets: ["latin"] });
+import { Montserrat } from "next/font/google";
+
 import Providers from "@/app/_providers/Providers";
 
 /* 
@@ -15,20 +15,26 @@ export const metadata: Metadata = {
    description: "R3vive platform",
 };
 
+const raleway = Montserrat({
+   weight: ["400", "600"],
+   subsets: ["latin"],
+   display: "swap",
+   style: "normal"
+});
+
 export default function RootLayout({
    children,
 }: {
    children: React.ReactNode;
 }) {
    return (
-      <html lang="en">
-         <head>
-         </head>
+      <html lang="en" className={raleway.className}>
+         <head></head>
          <body className="dark:text-white">
-               <Providers>
-                  <NavBar />
-                  {children}
-               </Providers>
+            <Providers>
+               <NavBar></NavBar>
+               <div className="pt-20">{children}</div>
+            </Providers>
          </body>
       </html>
    );

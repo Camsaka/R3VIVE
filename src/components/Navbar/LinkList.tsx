@@ -12,7 +12,7 @@ interface LinkListProps {
  
  const LinkList: React.FC<LinkListProps> = ({ isConnected }) => {
    return (
-      <nav className="flex self-center justify-between">
+      <div className="flex self-center justify-between">
          <ul className="space-x-28 flex">
             <li>
                <Link href="/" className="hover:text-gray-500">
@@ -39,7 +39,7 @@ interface LinkListProps {
                </li>
             )}
          </ul>
-      </nav>
+      </div>
    );
 }
 

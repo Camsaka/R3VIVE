@@ -32,7 +32,8 @@ export async function mintNFT(metadataURL: string, address: string) {
    });
    const data = await waitForTransaction({
       hash,
-   }).then((res) => {
+   }).then(async (res) => {
+
       return res;
    });
    return { data };

@@ -16,17 +16,18 @@ const ThemeSwitcher = () => {
    }
 
    return (
-      <div className="flex flex-col mr-10 justify-center">
-         <Button color="dark" pill onClick={() => setTheme("dark")}>
-            Dark
-         </Button>
+      <div className="flex flex-col mr-10 justify-center h-7">
          <Button
-            color="light"
+            color="dark"
             pill
-            onClick={() => setTheme("light")}
-            className="mt-1"
+            className="border border-gray-300"
+            onClick={() => {
+               if (theme === "light") {
+                  setTheme("dark");
+               } else setTheme("light");
+            }}
          >
-            Light
+            {theme}
          </Button>
       </div>
    );

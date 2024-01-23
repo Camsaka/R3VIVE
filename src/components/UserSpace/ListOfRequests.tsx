@@ -13,14 +13,25 @@ import { uploadMetadata, uploadPictureToIPFS } from "@/utils/IPFS";
 import { mintNFT } from "@/utils/SmartContract";
 
 async function mintNft(request: any, address: `0x${string}`) {
+
+   //upload picture on IPFS
    const pictureURL = await uploadPictureToIPFS(request.id);
-   console.log("PictureUrl:", pictureURL);
+
+   //create body with picture url
    const pictureFormatUrl: FormData = new FormData();
    pictureFormatUrl.append("pictureURL", pictureURL.IPFSUrl);
+
+   //upload metadata on IPFS
    const nftURI = await uploadMetadata(request.id, pictureFormatUrl);
-   console.log(nftURI);
+   //Mint NFT with right metadata
    const mintedData = await mintNFT(nftURI.IPFSUrl, address);
-   console.log(mintedData);
+
+   //delete the request from the psql db
+   const url = `/api/delete-request?id=${request.id}`;
+   const deletedRequest = await fetch(url, {
+      method: "DELETE",
+   });
+   console.log(deletedRequest);
 }
 
 function ListOfRequests() {
@@ -41,8 +52,8 @@ function ListOfRequests() {
    }, [accountContext]);
 
    return (
-      <div className="self-center w-11/12 border-solid border-2 border-slate-700 py-20 px-24 rounded-lg">
-         {requests.length > 0 && (
+      <div className="self-center w-11/12 border-solid border-2 border-slate-700 py-20 px-24 rounded-lg mb-10">
+         {requests.length > 0 ? (
             <>
                <Accordion collapseAll className="my-5">
                   {requests.map((value: any, index) => (
@@ -88,7 +99,7 @@ function ListOfRequests() {
                   ))}
                </Accordion>
             </>
-         )}
+         ) : (<p>Vous n'avez pas de requêtes en cours.</p>)}
       </div>
    );
 }
