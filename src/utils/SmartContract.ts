@@ -47,6 +47,7 @@ export async function getNFTMetadata(id: Number) {
 
 const smartcontractsfunctions = {
    mintNFT,
+   getNFTMetadata
 };
 
 export default smartcontractsfunctions;

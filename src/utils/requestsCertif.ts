@@ -46,6 +46,20 @@ export async function getAllRequestsActiveServerSide() {
    });
 }
 
+export async function deleteRequestFromDB(id : string){
+   const url = `/api/delete-request?id=${id}`;
+   return await fetch(url, {
+      method: "DELETE",
+   });
+}
+
+export async function deletePicturesFromFirebase(id: string){
+   const url = `/api/delete-images-from-firebase?id=${id}`;
+   return await fetch(url, {
+      method: "DELETE",
+   });
+}
+
 
 
 const requestCertifMethods = {
@@ -54,7 +68,8 @@ const requestCertifMethods = {
    getAllRequestsActive,
    getRequestById,
    validateRequest,
-   getAllRequestsActiveServerSide
+   getAllRequestsActiveServerSide,
+   deleteRequestFromDB
 };
 
 export default requestCertifMethods;

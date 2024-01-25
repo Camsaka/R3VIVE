@@ -1,27 +1,39 @@
 "use client";
-import { FileInput, Label, Select, Textarea, TextInput } from "flowbite-react";
+import {
+   Button,
+   FileInput,
+   Select,
+   Textarea,
+   TextInput,
+} from "flowbite-react";
 
 import { useContext, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { sendCertifRequest } from "@/utils/requestsCertif";
 import getDates from "@/utils/Dates";
 import { AccountContext } from "@/app/context/AccountContext";
+import LoadingSpinner from "../Animations/LoadingSpinner";
 
 /* 
 Confirmation mintability form : Get form datas and send a mail to r3vive mail box to confirmed
 All fields are required
 Call mail sending from @utils 
 */
-function CertifRequestForm() {
+function CertifRequestForm({
+   setRequestStatus,
+   setOpenModal,
+}: {
+   setRequestStatus: CallableFunction;
+   setOpenModal: CallableFunction;
+}) {
    const marques = ["Rolex", "Audemard Piguet", "Cartier", "Breitling"];
    const dates = getDates()!;
-   const [requestStatus, setRequestStatus] = useState("");
-   const router = useRouter();
    const account = useContext(AccountContext);
+   const [isDisableButton, setIsDisableButton] = useState(false);
 
    async function submitCertificatForm(e: any) {
       e.preventDefault();
+      setIsDisableButton(true);
       // const { data } = await addTokenId();
       // const logs = data.logs[0];
       // const abi = [
@@ -41,17 +53,13 @@ function CertifRequestForm() {
             setRequestStatus(
                "Nous avons bien reçu votre demande. Nous allons la traiter dans les plus bref délai."
             );
-            const timer = setTimeout(() => {
-               router.push("/");
-            }, 7000);
-            return () => {
-               clearTimeout(timer);
-            };
+            setOpenModal(true);
          })
          .catch((err) => {
             setRequestStatus(
                "Erreur lors de l'envoi du mail veuillez renouveler votre demande."
             );
+            setOpenModal(true);
          });
    }
 
@@ -181,14 +189,22 @@ function CertifRequestForm() {
                      multiple
                   />
                </div>
-               <button
+               <Button
+                  className="px-10 flex flex-col mt-5 justify-self-end"
+                  gradientMonochrome="cyan"
                   type="submit"
-                  className="m-5 bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  disabled={isDisableButton}
                >
-                  Envoyer
-               </button>
+                  {isDisableButton ? (
+                     <>
+                        <LoadingSpinner></LoadingSpinner>
+                        <p className="ml-2">Envoi en cours...</p>
+                     </>
+                  ) : (
+                     "Envoyer la requête"
+                  )}
+               </Button>
             </form>
-            <p>{requestStatus}</p>
          </div>
       </div>
    );

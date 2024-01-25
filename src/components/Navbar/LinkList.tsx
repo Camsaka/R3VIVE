@@ -1,5 +1,6 @@
 import { log } from "console";
 import Link from "next/link";
+import DropDown from "./DropDown";
 
 /* 
 Link list for navbar depends on connection context (connected ?)
@@ -33,9 +34,7 @@ interface LinkListProps {
             )}
                         {isConnected && (
                <li>
-                  <Link href="/user-space" className="hover:text-gray-500">
-                     Requetes et certificat
-                  </Link>
+                  <DropDown></DropDown>
                </li>
             )}
          </ul>

@@ -1,27 +1,26 @@
 "use client"
-
 import AccountInfos from "@/components/Web3/AccountInfos";
-import CertifRequestForm from "@/components/Web3/CertifRequestForm";
-import MintingModal from "@/components/UserSpace/MintingModal";
+import ListOfRequests from "@/components/UserSpace/ListOfRequests";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import MintingModal from "@/components/UserSpace/MintingModal";
 
 /* 
 Request certif page.
 */
 
 export default function Certificate() {
-
    const [requestStatus, setRequestStatus] = useState("");
    const [openModal, setOpenModal] = useState(false);
    const router = useRouter();
-   const onClickAction= () => {
-      router.push("/user-space/requests");
-   }
+   const onClickAction = () => {
+      router.push("/user-space/certificats");
+   };
    return (
-      <div>
+      <div className="flex flex-col">
          <AccountInfos />
-         <CertifRequestForm setRequestStatus={setRequestStatus} setOpenModal={setOpenModal} />
+         <p className=" my-12 text-2xl text-center">Mes requetes</p>
+         <ListOfRequests setMintStatus={setRequestStatus} setOpenModal={setOpenModal} />
          <MintingModal
             openModal={openModal}
             setOpenModal={setOpenModal}

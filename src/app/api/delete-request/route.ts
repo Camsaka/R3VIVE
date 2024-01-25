@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { useContext } from "react";
-import { AccountContext } from "@/app/context/AccountContext";
 
 export async function DELETE(req: NextRequest) {
    const { searchParams } = new URL(req.url);

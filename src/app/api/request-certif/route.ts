@@ -31,16 +31,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: message }, { status: 400 });
    }
 
-   files.map(async (file: File) => {
-      const imageRef = ref(storage, `imagesR3vive/${randomUUID()}${file.name}`);
-      uploadBytes(imageRef, file).then((snapshot) => {
-         getDownloadURL(snapshot.ref).then((url) => {
-            console.log(url);
+   // Use Promise.all to wait for all uploadBytes promises to settle
+   await Promise.all(
+      files.map(async (file: File) => {
+         const imageRef = ref(
+            storage,
+            `imagesR3vive/${randomUUID()}${file.name}`
+         );
+         try {
+            const snapshot = await uploadBytes(imageRef, file);
+            const url = await getDownloadURL(snapshot.ref);
             images.push(url);
-         });
-      });
-   });
-
+         } catch (error) {
+            console.error(`Error uploading image ${file.name}: ${error}`);
+         }
+      })
+   );
+   
    const attachmentsPromises = files.map(async (file: File) => {
       const buffer = await file.arrayBuffer();
       return {
@@ -101,9 +108,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(newCertif);
    } catch (err) {
       const message = "Erreur lors de l'envoi du mail de requete certif.";
-      return NextResponse.json(
-         { message, error: err },
-         { status: 500 }
-      );
+      return NextResponse.json({ message, error: err }, { status: 500 });
    }
 }

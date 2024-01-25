@@ -6,12 +6,11 @@ List of requests of the user with status and possibility to mint if accepted
 import { Accordion } from "flowbite-react";
 import { useAccountContext } from "@/app/context/AccountContext";
 import { useEffect, useState } from "react";
-import { getListOfRequests } from "@/utils/requestsCertif";
+import { getListOfRequests, deleteRequestFromDB, deletePicturesFromFirebase } from "@/utils/requestsCertif";
 import { Button } from "flowbite-react";
 import StatusOfRequest from "./StatusOfRequest";
 import { uploadMetadata, uploadPictureToIPFS } from "@/utils/IPFS";
 import { mintNFT } from "@/utils/SmartContract";
-import MintingModal from "@/components/UserSpace/MintingModal";
 import LoadingSpinner from "../Animations/LoadingSpinner";
 
 async function mintNft(request: any, address: `0x${string}`) {
@@ -27,20 +26,23 @@ async function mintNft(request: any, address: `0x${string}`) {
    //Mint NFT with right metadata
    const mintedData = await mintNFT(nftURI.IPFSUrl, address);
 
+   //delete pictures from firebase
+   const deletedPicturesFromFirebase = await deletePicturesFromFirebase(request.id);
+
    //delete the request from the psql db
-   const url = `/api/delete-request?id=${request.id}`;
-   const deletedRequest = await fetch(url, {
-      method: "DELETE",
-   });
-   console.log(deletedRequest);
+   const deletedRequest = await deleteRequestFromDB(request.id);
    return mintedData;
 }
 
-function ListOfRequests() {
+function ListOfRequests({
+   setMintStatus,
+   setOpenModal,
+}: {
+   setMintStatus: CallableFunction;
+   setOpenModal: CallableFunction;
+}) {
    const accountContext = useAccountContext();
    const [requests, setRequests] = useState([]);
-   const [mintStatus, setMintStatus] = useState("");
-   const [openModal, setOpenModal] = useState(false);
    const [isDisableButton, setIsDisableButton] = useState(false);
 
    const getRequests = () => {
@@ -97,11 +99,11 @@ function ListOfRequests() {
                                        value,
                                        accountContext.address
                                     );
-                                    setMintStatus(data);
+                                    setMintStatus("Certificat généré. Hash de transaction : " + data);
                                     setOpenModal(true);
                                  }
                               }}
-                              disabled={!value.mintable || isDisableButton}
+                              disabled={isDisableButton || !value.mintable}
                            >
                               {isDisableButton ? (
                                  <>
@@ -116,11 +118,6 @@ function ListOfRequests() {
                      </Accordion.Panel>
                   ))}
                </Accordion>
-               <MintingModal
-                  openModal={openModal}
-                  setOpenModal={setOpenModal}
-                  modalData={mintStatus}
-               ></MintingModal>
             </>
          ) : (
             <p>Vous n'avez pas de requêtes en cours.</p>

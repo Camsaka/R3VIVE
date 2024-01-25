@@ -24,13 +24,13 @@ export async function POST(req: NextRequest) {
          const response = await fetch(urlPicture);
          const imageBuffer = await response.arrayBuffer();
 
-         // // Upload the blob to IPFS
+         // Upload the blob to IPFS
          const uri = await storageThirdWeb.upload(Buffer.from(imageBuffer));
 
-         // // // Resolve the IPFS URI with a gateway
+         // Resolve the IPFS URI with a gateway
          const IPFSUrl = await storageThirdWeb.resolveScheme(uri);
 
-         // // Download data from the IPFS URI
+         // Download data from the IPFS URI
          // const dataIPFS = await storageThirdWeb.downloadJSON(uri);
 
          return NextResponse.json({

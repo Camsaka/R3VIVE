@@ -46,7 +46,7 @@ export default function ConfirmationTable() {
                            </Table.Cell>
                            <Table.Cell>{value.name}</Table.Cell>
                            <Table.Cell>{value.brand}</Table.Cell>
-                           {!value.mintable && (
+                           {!value.mintable && !value.rejected && (
                               <Table.Cell>
                                  <a
                                     href={`admin/request/${value.id}`}
@@ -59,6 +59,11 @@ export default function ConfirmationTable() {
                            {value.mintable && (
                               <Table.Cell>
                                  <p className="text-green-600">VALIDATED</p>
+                              </Table.Cell>
+                           )}
+                           {value.rejected && (
+                              <Table.Cell>
+                                 <p className="text-red-600">Rejected</p>
                               </Table.Cell>
                            )}
                         </Table.Row>

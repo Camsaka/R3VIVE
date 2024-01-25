@@ -1,7 +1,5 @@
 import AccountInfos from "@/components/Web3/AccountInfos";
-import ListOfRequests from "@/components/UserSpace/ListOfRequests";
 import ListOfCertificats from "@/components/UserSpace/ListOfCertificats";
-import { useEffect } from "react";
 
 /* 
 Request certif page.
@@ -13,8 +11,6 @@ export default function Certificate() {
          <AccountInfos />
          <p className=" mb-12 text-2xl text-center">Mes certificats</p>
          <ListOfCertificats />
-         <p className=" my-12 text-2xl text-center">Mes requetes</p>
-         <ListOfRequests />
       </div>
    );
 }
